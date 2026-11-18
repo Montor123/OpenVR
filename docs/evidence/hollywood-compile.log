@@ -1,0 +1,79 @@
+Compilación incremental completa de Linux ARM64 con el perfil Hollywood de Meta.
+Comando ejecutado: KERNEL_JOBS=2 ./kernel/build.sh compile
+Se conservaron los objetos compilados entre reintentos. Se comprobó el árbol Git antes de compilar.
+
+Android (10087095, +pgo, +bolt, +lto, -mlgo, based on r487747c) clang version 17.0.2 (https://android.googlesource.com/toolchain/llvm-project d9f89f4d16663d5012e5c09495f3b30ece3d2362)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: <kernel-work>/clang/bin
+GNU assembler (binutils-2.27-41d8fcb) 2.27.0.20170315
+Copyright (C) 2016 Free Software Foundation, Inc.
+This program is free software; you may redistribute it under the terms of
+the GNU General Public License version 3 or later.
+This program has absolutely no warranty.
+This assembler was configured for a target of `aarch64-linux-android'.
+
+clang_source=425c8149f17c8d9914bf690b4d5abe45a13fb993/clang-r487747c
+gcc_source=961622e926a1b21382dba4dd9fe0e5fb3ee5ab7c
+pahole v1.24
+
+Diagnósticos que motivaron los ajustes
+<kernel-work>/linux/techpack/audio/soc/pinctrl-lpi.c:25:10: fatal error: 'core.h' file not found
+<kernel-work>/kernel/qcom/kona/drivers/staging/qcacld-3.0/cmn/target_if/core/src/target_if_main.c:98:40: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+<kernel-work>/kernel/qcom/kona/drivers/staging/qcacld-3.0/cmn/hif/src/ce/ce_service_srng.c:1014:32: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+
+Enlace y salida
+  MODPOST vmlinux.o
+  BTF     .btf.vmlinux.bin.o
+  LD      vmlinux
+  OBJCOPY arch/arm64/boot/Image
+  MODPOST 27 modules
+<kernel-out>/arch/arm64/boot/Image: Linux kernel ARM64 boot executable Image, little-endian, 4K pages
+<kernel-out>/vmlinux:               ELF 64-bit LSB pie executable, ARM aarch64, version 1 (SYSV), statically linked, BuildID[xxHash]=b99ffc3ef93ab142, with debug_info, not stripped
+Módulos ARM64: 27
+Bytes de Image: 30371856
+Linux version 4.19.325-cip132-st16-gdba8278b20c9 (openvr@build) (Android (10087095, +pgo, +bolt, +lto, -mlgo, based on r487747c) clang version 17.0.2 (https://android.googlesource.com/toolchain/llvm-project d9f89f4d16663d5012e5c09495f3b30ece3d2362), LLD 17.0.2) #1 SMP PREEMPT Tue, 17 Nov 2026 15:14:31 -0800
+
+Verificación SHA-256 de los artefactos
+.config: OK
+arch/arm64/boot/dts/oculus/hollywood/hollywood-dvt-overlay.dtbo: OK
+arch/arm64/boot/dts/oculus/hollywood/hollywood-evt1-overlay.dtbo: OK
+arch/arm64/boot/dts/oculus/hollywood/hollywood-evt2-overlay.dtbo: OK
+arch/arm64/boot/dts/oculus/hollywood/hollywood-p1.1-overlay.dtbo: OK
+arch/arm64/boot/dts/oculus/hollywood/hollywood-poc2-overlay.dtbo: OK
+arch/arm64/boot/dts/oculus/hollywood/hollywood-pvt-b-overlay.dtbo: OK
+arch/arm64/boot/dts/oculus/kona-oculus.dtb: OK
+arch/arm64/boot/dts/oculus/kona-v2-oculus.dtb: OK
+arch/arm64/boot/dts/oculus/kona-v2.1-oculus.dtb: OK
+arch/arm64/boot/Image: OK
+Module.symvers: OK
+modules.order: OK
+./drivers/net/mii.ko: OK
+./drivers/net/usb/cdc_ether.ko: OK
+./drivers/net/usb/cdc_ncm.ko: OK
+./drivers/net/usb/cdc_subset.ko: OK
+./drivers/net/usb/r8152.ko: OK
+./drivers/net/usb/rndis_host.ko: OK
+./drivers/net/usb/rtl8150.ko: OK
+./drivers/net/usb/usbnet.ko: OK
+./drivers/soc/qcom/llcc_perfmon.ko: OK
+./drivers/staging/oculus/powerstate_mgr.ko: OK
+./drivers/staging/qcacld-3.0/wlan.ko: OK
+./drivers/usb/class/cdc-acm.ko: OK
+./drivers/usb/serial/usbserial.ko: OK
+./sound/usb/snd-usb-audio.ko: OK
+./sound/usb/snd-usbmidi-lib.ko: OK
+./techpack/audio/asoc/codecs/audio_ext_clk_up_dlkm.ko: OK
+./techpack/audio/asoc/codecs/hdmi_dlkm.ko: OK
+./techpack/audio/asoc/codecs/stub_dlkm.ko: OK
+./techpack/audio/asoc/machine_dlkm.ko: OK
+./techpack/audio/asoc/platform_dlkm.ko: OK
+./techpack/audio/dsp/adsp_loader_dlkm.ko: OK
+./techpack/audio/dsp/q6_dlkm.ko: OK
+./techpack/audio/dsp/q6_notifier_dlkm.ko: OK
+./techpack/audio/dsp/q6_pdr_dlkm.ko: OK
+./techpack/audio/ipc/apr_dlkm.ko: OK
+./techpack/audio/soc/pinctrl_lpi_dlkm.ko: OK
+./techpack/audio/soc/snd_event_dlkm.ko: OK
+
+Coincidencia de la configuración y los nueve DTB/DTBO con la compilación anterior.

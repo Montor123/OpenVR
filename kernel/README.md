@@ -10,6 +10,10 @@ Esta receta construye fuera del visor el kernel ARM64 que Meta publica para la p
 
 Meta indica usar android14-release para ambos repositorios de herramientas. La consulta pública de esa referencia para GCC no devolvió un commit. La receta usa una revisión verificable del mismo repositorio, presente en android-msm-redbull-4.19-android13, y conserva los argumentos de compilación cruzada publicados por Meta. Esta selección permite reproducir las pruebas de OpenVR. La paridad binaria con el kernel de fábrica queda pendiente. [Receta de Meta](https://github.com/facebookincubator/oculus-linux-kernel/blob/dba8278b20c9b22d8e90db5ce03825fb6238e4d2/README.meta.md)
 
+## Verificación
+
+La compilación local completó Image, 27 módulos, Module.symvers y tres DTB más seis DTBO a partir de la configuración original. Image mide 30 371 856 bytes. La prueba comprobó los 40 SHA‑256 y el tipo ARM64 del ejecutable. El comando compile conserva como advertencias los avisos de Clang 17 sobre declaraciones sin prototipo en target_if_main.c y ce_service_srng.c. Las fuentes de Meta se mantuvieron en su revisión fijada. [Salida de la compilación](../docs/evidence/hollywood-compile.log) · [SHA‑256](../docs/evidence/hollywood-compile.sha256)
+
 ## Construcción
 
 Desde la raíz del repositorio, en Linux amd64 con Docker o Windows con Docker Desktop y WSL2:

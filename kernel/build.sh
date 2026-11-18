@@ -182,7 +182,9 @@ case "$command" in
           record_artifacts
           ;;
         compile)
-          "${kbuild[@]}" -j"$jobs" Image modules dtbs
+          # Clang 17 diagnoses legacy empty parameter lists in the WLAN source.
+          "${kbuild[@]}" -j"$jobs" CFLAGS_target_if_main.o=-Wno-error=strict-prototypes \
+            CFLAGS_ce_service_srng.o=-Wno-error=strict-prototypes Image modules dtbs
           record_artifacts
           ;;
       esac
