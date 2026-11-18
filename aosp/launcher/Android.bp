@@ -1,0 +1,9 @@
+android_app {
+    name: "OpenVRLauncher",
+    manifest: "AndroidManifest.xml",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    sdk_version: "current",
+    min_sdk_version: "26",
+    product_specific: true,
+}

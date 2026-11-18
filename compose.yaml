@@ -34,7 +34,7 @@ services:
   build:
     profiles: [build]
     platform: linux/amd64
-    image: openvr-aosp-build:0.1.0
+    image: openvr-aosp-build:0.2.0-dev
     build:
       context: .
       target: build
@@ -43,7 +43,20 @@ services:
       - aosp-source:/data/aosp
       - results:/data/results
 
+  kernel:
+    profiles: [kernel]
+    platform: linux/amd64
+    image: openvr-hollywood-build:0.2.0-dev
+    build:
+      context: .
+      target: kernel
+    init: true
+    volumes:
+      - kernel-work:/data/kernel
+      - results:/data/results
+
 volumes:
+  kernel-work:
   aosp-source:
   android:
   downloads:

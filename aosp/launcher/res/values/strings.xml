@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OpenVR</string>
+    <string name="settings">Ajustes</string>
+    <string name="system">Sistema</string>
+    <string name="search_hint">Buscar aplicaciones</string>
+    <string name="no_apps">No hay aplicaciones disponibles.</string>
+    <string name="no_matches">Ninguna aplicación coincide con la búsqueda.</string>
+    <string name="system_title">Información del sistema</string>
+    <string name="system_details">Modelo: %1$s\nAndroid: %2$s (API %3$d)\nABI admitidas: %4$s\nCompilación: %5$s</string>
+    <string name="launch_failed">No se pudo abrir %1$s.</string>
+    <string name="app_accessibility">%1$s, %2$s</string>
+</resources>
