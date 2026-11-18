@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenVR · Laboratorio</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><span class="brand-icon" aria-hidden="true"></span>OpenVR<span class="brand-divider"></span><span class="brand-context">Laboratorio</span></div>
+      <div class="topbar-status"><span class="dot live"></span>Simulación local</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-title">
+      <div>
+        <h1>Banco de pruebas VR</h1>
+        <p>Prueba el visor virtual y tus APK desde el navegador.</p>
+      </div>
+      <a class="button subtle" id="desktop-link" target="_blank" rel="noopener noreferrer" hidden>Escritorio Android ↗</a>
+    </div>
+
+    <div class="workspace">
+      <section class="card scene-card" aria-labelledby="scene-heading">
+        <div class="section-head">
+          <div>
+            <h2 id="scene-heading">Sala de pruebas</h2>
+            <p>Vista del visor simulado</p>
+          </div>
+          <button id="menu-button" class="button subtle" aria-controls="scene-menu" aria-expanded="false">Abrir menú <kbd>M</kbd></button>
+        </div>
+        <div class="viewport" id="viewport" tabindex="0" aria-label="Sala interactiva. Usa W A S D para moverte y las flechas para mirar." aria-describedby="scene-tips">
+          <canvas id="scene" aria-hidden="true"></canvas>
+          <div class="viewport-status"><span class="dot live"></span><span id="tracking-status">Seguimiento simulado</span></div>
+          <div class="viewport-message" id="scene-message" role="status">Selecciona la sala para usar el teclado</div>
+          <div class="world-menu" id="scene-menu" hidden>
+            <div class="menu-title">
+              <h3>Menú de la sala</h3>
+              <button type="button" class="icon-button" id="close-menu" aria-label="Cerrar menú">×</button>
+            </div>
+            <button type="button" id="tracking-app" class="button menu-action" aria-pressed="false">Iniciar prueba de seguimiento</button>
+            <button type="button" id="lighting-button" class="button menu-action" aria-pressed="false">Cambiar iluminación</button>
+            <button type="button" id="menu-reset" class="button menu-action">Restablecer poses</button>
+          </div>
+        </div>
+        <div class="scene-footer" id="scene-tips">
+          <span>Arrastra para mirar. Usa <kbd>M</kbd> para abrir el menú.</span>
+          <button id="reset-button" class="text-button" type="button">Restablecer poses</button>
+        </div>
+      </section>
+
+      <aside class="card controls-card" aria-labelledby="controls-heading">
+        <div class="section-head">
+          <div><h2 id="controls-heading">Controles</h2><p>Teclado y ratón</p></div>
+        </div>
+        <div class="controls-body">
+          <div class="control-group">
+            <h3><span class="dot head-dot"></span>Visor</h3>
+            <dl>
+              <div><dt>Mover</dt><dd><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></dd></div>
+              <div><dt>Subir / bajar</dt><dd><kbd>E</kbd> <kbd>Q</kbd></dd></div>
+              <div><dt>Mirar</dt><dd><kbd>↑</kbd> <kbd>←</kbd> <kbd>↓</kbd> <kbd>→</kbd></dd></div>
+            </dl>
+            <output id="head-pose" class="pose" aria-live="off" aria-label="Posición del visor"></output>
+          </div>
+          <div class="control-group">
+            <h3>Mandos virtuales</h3>
+            <div class="hand-selector" aria-label="Mando activo">
+              <button type="button" class="hand" id="left-hand" aria-pressed="true"><span class="dot left-dot"></span>Izq. <kbd>1</kbd></button>
+              <button type="button" class="hand" id="right-hand" aria-pressed="false"><span class="dot right-dot"></span>Der. <kbd>2</kbd></button>
+            </div>
+            <dl>
+              <div><dt>Mover</dt><dd><kbd>I</kbd> <kbd>J</kbd> <kbd>K</kbd> <kbd>L</kbd></dd></div>
+              <div><dt>Subir / bajar</dt><dd><kbd>O</kbd> <kbd>U</kbd></dd></div>
+              <div><dt>Gatillo</dt><dd><kbd>Intro</kbd></dd></div>
+            </dl>
+            <output id="hand-pose" class="pose" aria-live="off" aria-label="Posición del mando activo"></output>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="details">
+      <section class="card" aria-labelledby="android-heading">
+        <div class="section-head">
+          <div><h2 id="android-heading">Android</h2><p>Instala APK mediante ADB</p></div>
+          <span class="pill" id="android-status"><span class="dot" id="android-dot"></span><span id="android-status-label">Comprobando</span></span>
+        </div>
+        <div class="details-body">
+          <form id="apk-form">
+            <label for="apk-file">APK propia</label>
+            <div class="file-row">
+              <input id="apk-file" type="file" accept=".apk,application/vnd.android.package-archive" required disabled>
+              <button type="submit" class="button primary" id="install-apk" disabled>Instalar</button>
+            </div>
+          </form>
+          <div class="example-row">
+            <button type="button" class="button subtle" id="install-demo" disabled>Instalar y abrir ejemplo</button>
+            <button type="button" class="button subtle" id="launch-demo" disabled>Abrir ejemplo</button>
+          </div>
+          <p id="apk-hint" class="hint" aria-live="polite">Esperando el estado del entorno…</p>
+          <pre class="command-output" id="apk-output" role="status" hidden></pre>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="logs-heading">
+        <div class="section-head">
+          <div><h2 id="logs-heading">Registros</h2><p>Salida del laboratorio y de ADB</p></div>
+          <button type="button" class="button subtle" id="refresh-logs">Actualizar</button>
+        </div>
+        <div class="details-body">
+          <label for="log-target">Origen</label>
+          <select id="log-target">
+            <option value="demo">Laboratorio</option>
+            <option value="android">Android</option>
+          </select>
+          <pre id="logs" class="logs" tabindex="0" aria-label="Contenido del registro" aria-busy="true">Cargando…</pre>
+        </div>
+      </section>
+    </div>
+
+    <footer>Prototipo local de OpenVR <span aria-hidden="true">·</span> Simulación de poses en Canvas y emulación Android independiente</footer>
+  </main>
+  <noscript>Activa JavaScript para usar la sala de pruebas y el panel Android.</noscript>
+</body>
+</html>

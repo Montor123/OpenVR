@@ -1,0 +1,9 @@
+.git
+.github
+dist
+results
+*.apk
+*.img
+*.tar
+*.tar.gz
+openxr

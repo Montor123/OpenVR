@@ -1,0 +1,14 @@
+services:
+  xr:
+    image: openvr-native-xr:25.0
+    platform: linux/amd64
+    build: .
+    init: true
+    shm_size: 256m
+    ports:
+      - "127.0.0.1:${OPENVR_XR_PORT:-6081}:6081"
+    volumes:
+      - xr-results:/data/results
+
+volumes:
+  xr-results:

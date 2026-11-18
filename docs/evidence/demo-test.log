@@ -1,0 +1,30 @@
+Docker cliente 29.9.2, servidor 29.9.2
+Docker Compose version v2.40.3
+Imagen sha256:88b7d105d5577683ba03444b11c7991c267efc921125781567b266a94ffb85cf (linux/amd64), 6774646 bytes de capas
+6807040 openvr-demo-0.1.0-linux-amd64.tar
+openvr-demo-0.1.0-linux-amd64.tar: OK
+$ docker load -i dist/openvr-demo-0.1.0-linux-amd64.tar
+Loaded image: openvr-demo:0.1.0
+$ OPENVR_PORT=18080 docker compose up --detach --wait demo
+ Container openvr-demo-1  Recreate
+ Container openvr-demo-1  Recreated
+ Container openvr-demo-1  Starting
+ Container openvr-demo-1  Started
+ Container openvr-demo-1  Waiting
+ Container openvr-demo-1  Healthy
+$ scripts/test-demo.sh http://127.0.0.1:18080
+Salud HTTP: {"ok":true}
+Estado demo: {"android":false,"desktop":false}
+Registro persistente: {"log":"2026/11/18 11:42:17 OpenVR iniciado en el puerto 8080 (Android habilitado: false)\n2026/11/18 11:47:50 OpenVR iniciado en el puerto 8080 (Android habilitado: false)\n"}
+Interfaz HTTP correcta
+Android deshabilitado en demo: HTTP 503
+Petición cruzada rechazada: HTTP 403
+$ OPENVR_URL=http://127.0.0.1:18080 node scripts/test-browser.mjs
+OK: sala Canvas, movimiento por teclado y ratón, poses de dos mandos, menú y objetivo.
+OK: servicio real disponible y registro visible en la página.
+OK: Chromium 156.0.8078.79, sin excepciones JS ni desbordamiento a 390 px.
+$ node scripts/test-browser.mjs # API de prueba
+OK: sala Canvas, movimiento por teclado y ratón, poses de dos mandos, menú y objetivo.
+OK: carga APK binaria, ejemplo, registros y enlace noVNC con API de prueba.
+OK: errores de ADB, registros y servidor tratados en la interfaz.
+OK: Chromium 156.0.8078.79, sin excepciones JS ni desbordamiento a 390 px.

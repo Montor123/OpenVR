@@ -1,0 +1,134 @@
+ INFO [ipc_server_main] Monado(XRT) by Collabora et al '25.0.0+dfsg-2' starting up...
+ INFO [disable_drivers_from_conflicts] Disabling psmv because we have Qwerty
+ INFO [disable_drivers_from_conflicts] Disabling psmv because we have Qwerty
+ INFO [disable_drivers_from_conflicts] Disabling pssense because we have Qwerty
+ INFO [disable_drivers_from_conflicts] Disabling pssense because we have Qwerty
+ INFO [disable_drivers_from_conflicts] Disabling rokid because we have Qwerty
+ INFO [disable_drivers_from_conflicts] Disabling hydra because we have Qwerty
+ INFO [disable_drivers_from_conflicts] Disabling osvr because we have Qwerty
+ INFO [disable_drivers_from_conflicts] Disabling PSVR because we have Qwerty
+ INFO [disable_drivers_from_conflicts] Disabling Arduino because we have Qwerty
+ INFO [disable_drivers_from_conflicts] Disabling DayDream because we have Qwerty
+ INFO [disable_drivers_from_conflicts] Disabling Euroc Device because we have Qwerty
+ INFO [disable_drivers_from_conflicts] Disabling Simulated because we have Qwerty
+ INFO [p_create_system] Creating system:
+	Builders:
+		qwerty: Qwerty devices builder
+		remote: Remote simulation devices builder
+		simulated: Simulated devices builder
+		rift_s: Oculus Rift S
+		rgb_tracking: RGB tracking based devices (PSVR, PSMV, ...)
+		steamvr: SteamVR proprietary wrapper (Vive, Index, Tundra trackers, etc.) devices builder
+		lighthouse: Lighthouse-tracked FLOSS (Vive, Index, Tundra trackers, etc.) devices builder
+		wmr: Windows Mixed Reality
+		xreal_air: Xreal Air
+		legacy: Legacy probing system
+	No builder selected in config (or wasn't compiled in)
+	Selected qwerty because it was certain it could create a head
+	Using builder qwerty: Qwerty devices builder
+	Got devices:
+		0: Qwerty HMD
+		1: Qwerty Left Controller
+		2: Qwerty Right Controller
+	In roles:
+		head: Qwerty HMD, view count: 2
+		eyes: <none>
+		face: <none>
+		left: Qwerty Left Controller
+		right: Qwerty Right Controller
+		gamepad: <none>
+		hand_tracking.left: <none>
+		hand_tracking.right: <none>
+	Result: XRT_SUCCESS
+DEBUG [comp_main_create_system_compositor] Doing init 0x562d9cbd0cb0
+ INFO [create_device] Created device and GRAPHICS queue with QUEUE_GLOBAL_PRIORITY_REALTIME.
+ INFO [vk_print_device_info] Device info:
+	name: llvmpipe (LLVM 19.1.7, 256 bits)
+	vendor: 0x10005
+	product: 0x0000
+	deviceType: VK_PHYSICAL_DEVICE_TYPE_CPU
+	apiVersion: 1.4.305
+	driverVersion: 0x00000001
+ INFO [vk_print_features_info] Features:
+	timestamp_compute_and_graphics: true
+	timestamp_period: 1.000000
+	timestamp_valid_bits: 64
+	timeline_semaphore: true
+ INFO [vk_print_external_handles_info] Supported images:
+	VK_EXTERNAL_MEMORY_HANDLE_TYPE_OPAQUE_FD_BIT:
+		color import=true export=true
+		depth import=true export=true
+ INFO [vk_print_external_handles_info] Supported fences:
+	VK_EXTERNAL_FENCE_HANDLE_TYPE_SYNC_FD_BIT: false
+	VK_EXTERNAL_FENCE_HANDLE_TYPE_OPAQUE_FD_BIT: false
+ INFO [vk_print_external_handles_info] Supported semaphores:
+	VK_EXTERNAL_SEMAPHORE_HANDLE_TYPE_SYNC_FD_BIT(binary): false
+	VK_EXTERNAL_SEMAPHORE_HANDLE_TYPE_OPAQUE_FD_BIT(binary): false
+	VK_EXTERNAL_SEMAPHORE_HANDLE_TYPE_SYNC_FD_BIT(timeline): false
+	VK_EXTERNAL_SEMAPHORE_HANDLE_TYPE_OPAQUE_FD_BIT(timeline): false
+ INFO [comp_vulkan_formats_log] Supported formats:
+	VK_FORMAT_R16G16B16A16_UNORM: true
+	VK_FORMAT_R16G16B16A16_SFLOAT: true
+	VK_FORMAT_R16G16B16_UNORM: false
+	VK_FORMAT_R16G16B16_SFLOAT: false
+	VK_FORMAT_R8G8B8A8_SRGB: true
+	VK_FORMAT_B8G8R8A8_SRGB: true
+	VK_FORMAT_R8G8B8_SRGB: false
+	VK_FORMAT_R8G8B8A8_UNORM: true
+	VK_FORMAT_B8G8R8A8_UNORM: true
+	VK_FORMAT_R8G8B8_UNORM: false
+	VK_FORMAT_B8G8R8_UNORM: false
+	VK_FORMAT_R5G6B5_UNORM_PACK16: true
+	VK_FORMAT_R32_SFLOAT: true
+	VK_FORMAT_D32_SFLOAT: true
+	VK_FORMAT_D16_UNORM: true
+	VK_FORMAT_X8_D24_UNORM_PACK32: true
+	VK_FORMAT_D24_UNORM_S8_UINT: true
+	VK_FORMAT_D32_SFLOAT_S8_UINT: true
+	VK_FORMAT_S8_UINT: true
+ WARN [u_linux_try_to_set_realtime_priority_on_thread] Could not raise priority for thread 'Multi Client Module'
+ INFO [print_linux_end_user_started_information]
+################################################################################
+#                                                                              #
+#                        The Monado service has started.                       #
+#                                                                              #
+################################################################################
+ INFO [client_loop] Client 1 connected
+ INFO [ipc_handle_instance_describe_client] Client info:
+	id: 1
+	application_name: 'HelloXR'
+	pid: 84
+	extensions:
+		ext_hand_tracking_enabled: false
+		ext_eye_gaze_interaction_enabled: false
+		ext_hand_interaction_enabled: false
+ INFO [vk_print_surface_info] VkSurfaceKHR info:
+	caps.minImageCount: 3
+	caps.maxImageCount: 0
+	caps.currentExtent: 640x360
+	caps.minImageExtent: 640x360
+	caps.maxImageExtent: 640x360
+	caps.maxImageArrayLayers: 1
+	caps.supportedTransforms:
+		VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR
+	caps.currentTransform: VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR
+	caps.supportedCompositeAlpha:
+		VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR
+		VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR
+	caps.supportedUsageFlags:
+		VK_IMAGE_USAGE_TRANSFER_SRC_BIT
+		VK_IMAGE_USAGE_TRANSFER_DST_BIT
+		VK_IMAGE_USAGE_SAMPLED_BIT
+		VK_IMAGE_USAGE_STORAGE_BIT
+		VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT
+		VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT
+		VK_IMAGE_USAGE_ATTACHMENT_FEEDBACK_LOOP_BIT_EXT
+	present_modes(4):
+		VK_PRESENT_MODE_IMMEDIATE_KHR
+		VK_PRESENT_MODE_MAILBOX_KHR
+		VK_PRESENT_MODE_FIFO_KHR
+		VK_PRESENT_MODE_FIFO_RELAXED_KHR
+	formats(2):
+		[format = VK_FORMAT_B8G8R8A8_SRGB, colorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR]
+		[format = VK_FORMAT_B8G8R8A8_UNORM, colorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR]
+ INFO [vk_print_swapchain_create_info] VkSwapchainCreateInfoKHR:

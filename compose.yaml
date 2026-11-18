@@ -1,0 +1,50 @@
+name: openvr
+services:
+  demo:
+    profiles: [demo]
+    platform: linux/amd64
+    image: openvr-demo:0.1.0
+    build:
+      context: .
+      target: demo
+    ports:
+      - "127.0.0.1:${OPENVR_PORT:-8080}:8080"
+    volumes:
+      - results:/data/results
+    read_only: true
+
+  dev:
+    profiles: [dev]
+    platform: linux/amd64
+    image: openvr-dev:0.1.0
+    build:
+      context: .
+      target: dev
+    init: true
+    shm_size: 512m
+    ports:
+      - "127.0.0.1:${OPENVR_PORT:-8080}:8080"
+      - "127.0.0.1:6080:6080"
+    volumes:
+      - ./android:/workspace/android:ro
+      - android:/data/android
+      - downloads:/data/downloads
+      - results:/data/results
+
+  build:
+    profiles: [build]
+    platform: linux/amd64
+    image: openvr-aosp-build:0.1.0
+    build:
+      context: .
+      target: build
+    init: true
+    volumes:
+      - aosp-source:/data/aosp
+      - results:/data/results
+
+volumes:
+  aosp-source:
+  android:
+  downloads:
+  results:

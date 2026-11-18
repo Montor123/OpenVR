@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OpenVR Demo</string>
+    <string name="description">Aplicación Android 2D del laboratorio OpenVR</string>
+    <string name="diagnostic_action">Comprobar ejecución</string>
+    <string name="ready">Actividad iniciada</string>
+    <string name="diagnostic_recorded">Diagnóstico guardado en logcat</string>
+</resources>

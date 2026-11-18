@@ -1,0 +1,147 @@
+[11:40:17.540][Info   ] Press any key to shutdown...
+[11:40:17.541][Info   ] Available Layers: (0)
+LOG in xrCreateInstance: Instance created
+	createInfo->applicationInfo.applicationName: HelloXR
+	createInfo->applicationInfo.applicationVersion: 0
+	createInfo->applicationInfo.engineName:
+	createInfo->applicationInfo.engineVersion: 0
+	createInfo->applicationInfo.apiVersion: 1.0.47
+	appinfo.detected.engine.name: (null)
+	appinfo.detected.engine.version: 0.0.0
+	quirks.disable_vulkan_format_depth_stencil: false
+	quirks.no_validation_error_in_create_ref_space: true
+	quirks.skip_end_session: false
+	quirks.parallel_views: false
+
+LOG in xrCreateInstance: Selected devices
+	Head: 'Qwerty HMD'
+	Eyes: '<none>'
+	Left: 'Qwerty Left Controller'
+	Right: 'Qwerty Right Controller'
+	Gamepad: '<none>'
+	Hand-Tracking Left: '<none>'
+	Hand-Tracking Right: '<none>'
+[11:40:17.561][Info   ] Instance RuntimeName=Monado(XRT) by Collabora et al '25.0.0+dfsg-2' RuntimeVersion=25.0.0
+[11:40:17.561][Info   ] Available View Configuration Types: (1)
+[11:40:17.561][Info   ] Available Environment Blend Mode count : (1)
+[11:40:17.561][Info   ] Environment Blend Mode (XR_ENVIRONMENT_BLEND_MODE_OPAQUE) : (Selected)
+[11:40:17.562][Warning] No validation layers found in the system, skipping
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690) No valid vk_loader_settings.json file found, no loader settings will be active
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690) Searching for implicit layer manifest files
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)    In following locations:
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)       /home/xr/.config/vulkan/implicit_layer.d
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)       /etc/xdg/vulkan/implicit_layer.d
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)       /etc/vulkan/implicit_layer.d
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)       /home/xr/.local/share/vulkan/implicit_layer.d
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)       /usr/local/share/vulkan/implicit_layer.d
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)       /usr/share/vulkan/implicit_layer.d
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)    Found the following files:
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)       /usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690) Found manifest file /usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json (file version 1.0.0)
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690) Searching for explicit layer manifest files
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)    In following locations:
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)       /home/xr/.config/vulkan/explicit_layer.d
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)       /etc/xdg/vulkan/explicit_layer.d
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)       /etc/vulkan/explicit_layer.d
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)       /home/xr/.local/share/vulkan/explicit_layer.d
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)       /usr/local/share/vulkan/explicit_layer.d
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)       /usr/share/vulkan/explicit_layer.d
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)    Found the following files:
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)       /usr/share/vulkan/explicit_layer.d/VkLayer_MESA_overlay.json
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)       /usr/share/vulkan/explicit_layer.d/VkLayer_INTEL_nullhw.json
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690) Found manifest file /usr/share/vulkan/explicit_layer.d/VkLayer_MESA_overlay.json (file version 1.0.0)
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690) Found manifest file /usr/share/vulkan/explicit_layer.d/VkLayer_INTEL_nullhw.json (file version 1.0.0)
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690) Searching for driver manifest files
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)    In following locations:
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)       /usr/share/vulkan/icd.d/lvp_icd.json
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)    Found the following files:
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)       /usr/share/vulkan/icd.d/lvp_icd.json
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690) Found ICD manifest file /usr/share/vulkan/icd.d/lvp_icd.json, version 1.0.0
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690) Insert instance layer "VK_LAYER_MESA_device_select" (libVkLayer_MESA_device_select.so)
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690) vkCreateInstance layer callstack setup to:
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)    <Application>
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)      ||
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)    <Loader>
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)      ||
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)    VK_LAYER_MESA_device_select
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)            Type: Implicit
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)            Enabled By: Implicit Layer
+[11:40:17.578][Info   ] INFO: (INSTANCE 0x557b9ec34690)                Disable Env Var:  NODEVICE_SELECT
+[11:40:17.579][Info   ] INFO: (INSTANCE 0x557b9ec34690)            Manifest: /usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json
+[11:40:17.579][Info   ] INFO: (INSTANCE 0x557b9ec34690)            Library:  libVkLayer_MESA_device_select.so
+[11:40:17.579][Info   ] INFO: (INSTANCE 0x557b9ec34690)      ||
+[11:40:17.579][Info   ] INFO: (INSTANCE 0x557b9ec34690)    <Drivers>
+LOG in xrCreateVulkanInstanceKHR: Creation of VkInstance:
+	result: VK_SUCCESS
+	vulkanInstance: 0x557b9ec34690
+	extensions:
+		VK_KHR_external_fence_capabilities
+		VK_KHR_external_memory_capabilities
+		VK_KHR_external_semaphore_capabilities
+		VK_KHR_get_physical_device_properties2
+		VK_EXT_debug_utils
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690) linux_read_sorted_physical_devices:
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)      Original order:
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)            [0] llvmpipe (LLVM 19.1.7, 256 bits)
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)      Sorted order:
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)            [0] llvmpipe (LLVM 19.1.7, 256 bits)
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690) linux_read_sorted_physical_devices:
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)      Original order:
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)            [0] llvmpipe (LLVM 19.1.7, 256 bits)
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)      Sorted order:
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)            [0] llvmpipe (LLVM 19.1.7, 256 bits)
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690) linux_read_sorted_physical_devices:
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)      Original order:
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)            [0] llvmpipe (LLVM 19.1.7, 256 bits)
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)      Sorted order:
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)            [0] llvmpipe (LLVM 19.1.7, 256 bits)
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690) linux_read_sorted_physical_devices:
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)      Original order:
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)            [0] llvmpipe (LLVM 19.1.7, 256 bits)
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)      Sorted order:
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)            [0] llvmpipe (LLVM 19.1.7, 256 bits)
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690) Failed to find vkGetDeviceProcAddr in layer "libVkLayer_MESA_device_select.so"
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690) vkCreateDevice layer callstack setup to:
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)    <Application>
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)      ||
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)    <Loader>
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)      ||
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)    <Device>
+[11:40:17.582][Info   ] INFO: (INSTANCE 0x557b9ec34690)        Using "llvmpipe (LLVM 19.1.7, 256 bits)" with driver: "libvulkan_lvp.so"
+LOG in xrGetVulkanGraphicsDeviceKHR: Creation of VkDevice:
+	result: VK_SUCCESS
+	vulkanDevice: 0x557b9ecc6ad0
+	vulkanInstance: 0x557b9ec34690
+	external_fence_fd: false
+	external_semaphore_fd: false
+	timelineSemaphore: true
+	extensions:
+		VK_KHR_dedicated_allocation
+		VK_KHR_external_fence
+		VK_KHR_external_memory
+		VK_KHR_external_semaphore
+		VK_KHR_get_memory_requirements2
+		VK_KHR_external_memory_fd
+		VK_KHR_image_format_list
+		VK_KHR_timeline_semaphore
+[11:40:17.621][Info   ] Loaded vertex shader
+[11:40:17.621][Info   ] Loaded fragment shader
+[11:40:17.623][Info   ] Available reference spaces: 3
+[11:40:17.623][Info   ] System Properties: Name=Monado: Qwerty HMD VendorId=42
+[11:40:17.623][Info   ] System Graphics Properties: MaxWidth=16384 MaxHeight=16384 MaxLayers=128
+[11:40:17.623][Info   ] System Tracking Properties: OrientationTracking=False PositionTracking=False
+[11:40:17.623][Info   ] Creating swapchain for view 0 with dimensions Width=384 Height=432 SampleCount=1
+[11:40:17.630][Info   ] Creating swapchain for view 1 with dimensions Width=384 Height=432 SampleCount=1
+[11:40:17.632][Info   ] XrEventDataSessionStateChanged: state XR_SESSION_STATE_UNKNOWN->XR_SESSION_STATE_IDLE session=93989461819344 time=0
+[11:40:17.632][Info   ] XrEventDataSessionStateChanged: state XR_SESSION_STATE_IDLE->XR_SESSION_STATE_READY session=93989461819344 time=0
+[11:40:17.638][Info   ] Grab action is bound to 'Left Microsoft Mixed Reality Motion Controller Squeeze' and 'Right Microsoft Mixed Reality Motion Controller Squeeze'
+[11:40:17.638][Info   ] Quit action is bound to 'Left Microsoft Mixed Reality Motion Controller Menu' and 'Right Microsoft Mixed Reality Motion Controller Menu'
+[11:40:17.638][Info   ] Pose action is bound to 'Left Microsoft Mixed Reality Motion Controller Grip' and 'Right Microsoft Mixed Reality Motion Controller Grip'
+[11:40:17.638][Info   ] Vibrate action is bound to 'Left Microsoft Mixed Reality Motion Controller Haptic' and 'Right Microsoft Mixed Reality Motion Controller Haptic'
+[11:40:17.638][Info   ] Grab action is bound to 'Left Microsoft Mixed Reality Motion Controller Squeeze' and 'Right Microsoft Mixed Reality Motion Controller Squeeze'
+[11:40:17.638][Info   ] Quit action is bound to 'Left Microsoft Mixed Reality Motion Controller Menu' and 'Right Microsoft Mixed Reality Motion Controller Menu'
+[11:40:17.638][Info   ] Pose action is bound to 'Left Microsoft Mixed Reality Motion Controller Grip' and 'Right Microsoft Mixed Reality Motion Controller Grip'
+[11:40:17.638][Info   ] Vibrate action is bound to 'Left Microsoft Mixed Reality Motion Controller Haptic' and 'Right Microsoft Mixed Reality Motion Controller Haptic'
+[11:40:17.638][Info   ] XrEventDataSessionStateChanged: state XR_SESSION_STATE_READY->XR_SESSION_STATE_SYNCHRONIZED session=93989461819344 time=0
+[11:40:17.638][Info   ] XrEventDataSessionStateChanged: state XR_SESSION_STATE_SYNCHRONIZED->XR_SESSION_STATE_VISIBLE session=93989461819344 time=0
+[11:40:17.638][Info   ] XrEventDataSessionStateChanged: state XR_SESSION_STATE_VISIBLE->XR_SESSION_STATE_FOCUSED session=93989461819344 time=0

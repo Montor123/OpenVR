@@ -1,0 +1,9 @@
+/dist/
+/results/
+*.apk
+*.img
+*.tar
+*.tar.gz
+*.jks
+*.keystore
+.env
