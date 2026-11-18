@@ -71,7 +71,7 @@ docker compose run --rm build sync
 docker compose run --rm -e AOSP_JOBS=8 build compile
 ~~~
 
-La receta usa la etiqueta android-14.0.0_r75 y el objetivo aosp_cf_x86_64_phone-trunk_staging-userdebug. Los logs y el manifiesto resuelto quedan en results. Las imágenes que genere Cuttlefish son imágenes de referencia para su entorno virtual. [Manifiesto AOSP](https://android.googlesource.com/platform/manifest/+/refs/tags/android-14.0.0_r75) · [Objetivo Cuttlefish](https://android.googlesource.com/device/google/cuttlefish/+/refs/tags/android-14.0.0_r75/AndroidProducts.mk) · [Ejecución de Cuttlefish](https://source.android.com/docs/devices/cuttlefish/get-started).
+La receta usa la etiqueta android-14.0.0_r75 y el objetivo openvr_cf_x86_64_phone-trunk_staging-userdebug. El subcomando compile-reference conserva el objetivo Cuttlefish original. [Producto OpenVR para Cuttlefish](../aosp/README.md). Los logs y el manifiesto resuelto quedan en results. Las imágenes que genere Cuttlefish son imágenes de referencia para su entorno virtual. [Manifiesto AOSP](https://android.googlesource.com/platform/manifest/+/refs/tags/android-14.0.0_r75) · [Objetivo Cuttlefish](https://android.googlesource.com/device/google/cuttlefish/+/refs/tags/android-14.0.0_r75/AndroidProducts.mk) · [Ejecución de Cuttlefish](https://source.android.com/docs/devices/cuttlefish/get-started).
 
 En redes con un proxy TLS corporativo, el constructor admite un fichero PEM de CA de confianza como secreto BuildKit `apt_ca`. Para las descargas del SDK o las dependencias del APK, proporciona la CA en tiempo de ejecución con `CURL_CA_BUNDLE` apuntando a un archivo montado.
 

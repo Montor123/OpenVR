@@ -1,0 +1,232 @@
+OpenVR | Kernel Meta Quest 2 | compilación de Device Tree
+Revisión: dba8278b20c9b22d8e90db5ce03825fb6238e4d2
+Comando: KERNEL_JOBS=2 ./kernel/build.sh dtbs
+Herramientas host de la prueba: GNU Make 4.4.1
+bison (GNU Bison) 3.8.2
+flex 2.6.4
+Android (10087095, +pgo, +bolt, +lto, -mlgo, based on r487747c) clang version 17.0.2 (https://android.googlesource.com/toolchain/llvm-project d9f89f4d16663d5012e5c09495f3b30ece3d2362)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /workspace/work/hollywood-kernel/clang/bin
+GNU assembler (binutils-2.27-41d8fcb) 2.27.0.20170315
+Copyright (C) 2016 Free Software Foundation, Inc.
+This program is free software; you may redistribute it under the terms of
+the GNU General Public License version 3 or later.
+This program has absolutely no warranty.
+This assembler was configured for a target of `aarch64-linux-android'.
+
+clang_source=425c8149f17c8d9914bf690b4d5abe45a13fb993/clang-r487747c
+gcc_source=961622e926a1b21382dba4dd9fe0e5fb3ee5ab7c
+
+Salida de Kconfig y DTC
+Using <kernel-work>/linux/arch/arm64/configs/vendor/oculus_kona_defconfig as base
+Merging <kernel-work>/linux/arch/arm64/configs/vendor/oculus_hollywood_defconfig
+#
+# merged configuration written to <kernel-work>/out/hollywood.config.in (needs make)
+#
+make: Entering directory '<kernel-work>/linux'
+  GEN     ./Makefile
+  YACC    scripts/kconfig/zconf.tab.c
+  LEX     scripts/kconfig/zconf.lex.c
+  HOSTCC  scripts/kconfig/zconf.tab.o
+  HOSTLD  scripts/kconfig/conf
+scripts/kconfig/conf  --olddefconfig Kconfig
+.config:656:warning: override: reassigning to symbol XFRM_STATISTICS
+.config:661:warning: override: reassigning to symbol NF_CONNTRACK_SECMARK
+.config:662:warning: override: reassigning to symbol NF_CONNTRACK_AMANDA
+.config:663:warning: override: reassigning to symbol NF_CONNTRACK_FTP
+.config:664:warning: override: reassigning to symbol NF_CONNTRACK_H323
+.config:665:warning: override: reassigning to symbol NF_CONNTRACK_IRC
+.config:666:warning: override: reassigning to symbol NF_CONNTRACK_NETBIOS_NS
+.config:667:warning: override: reassigning to symbol NF_CONNTRACK_PPTP
+.config:668:warning: override: reassigning to symbol NF_CONNTRACK_SANE
+.config:669:warning: override: reassigning to symbol NF_CONNTRACK_TFTP
+.config:670:warning: override: reassigning to symbol NETFILTER_XT_TARGET_CLASSIFY
+.config:671:warning: override: reassigning to symbol NETFILTER_XT_TARGET_CONNSECMARK
+.config:674:warning: override: reassigning to symbol NETFILTER_XT_TARGET_NFQUEUE
+.config:677:warning: override: reassigning to symbol NETFILTER_XT_TARGET_TPROXY
+.config:678:warning: override: reassigning to symbol NETFILTER_XT_TARGET_TRACE
+.config:679:warning: override: reassigning to symbol NETFILTER_XT_TARGET_SECMARK
+.config:680:warning: override: reassigning to symbol NETFILTER_XT_TARGET_TCPMSS
+.config:681:warning: override: reassigning to symbol NETFILTER_XT_MATCH_COMMENT
+.config:682:warning: override: reassigning to symbol NETFILTER_XT_MATCH_CONNLIMIT
+.config:683:warning: override: reassigning to symbol NETFILTER_XT_MATCH_CONNTRACK
+.config:686:warning: override: reassigning to symbol NETFILTER_XT_MATCH_HASHLIMIT
+.config:687:warning: override: reassigning to symbol NETFILTER_XT_MATCH_HELPER
+.config:688:warning: override: reassigning to symbol NETFILTER_XT_MATCH_IPRANGE
+.config:689:warning: override: reassigning to symbol NETFILTER_XT_MATCH_LENGTH
+.config:690:warning: override: reassigning to symbol NETFILTER_XT_MATCH_LIMIT
+.config:691:warning: override: reassigning to symbol NETFILTER_XT_MATCH_MAC
+.config:693:warning: override: reassigning to symbol NETFILTER_XT_MATCH_OWNER
+.config:694:warning: override: reassigning to symbol NETFILTER_XT_MATCH_PKTTYPE
+.config:695:warning: override: reassigning to symbol NETFILTER_XT_MATCH_QUOTA2_LOG
+.config:697:warning: override: reassigning to symbol NETFILTER_XT_MATCH_SOCKET
+.config:698:warning: override: reassigning to symbol NETFILTER_XT_MATCH_STATISTIC
+.config:699:warning: override: reassigning to symbol NETFILTER_XT_MATCH_STRING
+.config:700:warning: override: reassigning to symbol NETFILTER_XT_MATCH_TIME
+.config:702:warning: override: reassigning to symbol IP_NF_MATCH_ECN
+.config:704:warning: override: reassigning to symbol IP_NF_MATCH_TTL
+.config:705:warning: override: reassigning to symbol IP_NF_NAT
+.config:706:warning: override: reassigning to symbol IP_NF_TARGET_MASQUERADE
+.config:707:warning: override: reassigning to symbol IP_NF_TARGET_NETMAP
+.config:708:warning: override: reassigning to symbol IP_NF_TARGET_REDIRECT
+.config:709:warning: override: reassigning to symbol IP_NF_ARPTABLES
+.config:710:warning: override: reassigning to symbol IP_NF_ARPFILTER
+.config:711:warning: override: reassigning to symbol IP_NF_ARP_MANGLE
+.config:712:warning: override: reassigning to symbol IP6_NF_MATCH_RPFILTER
+.config:726:warning: override: reassigning to symbol NET_EMATCH
+.config:729:warning: override: reassigning to symbol NET_EMATCH_U32
+#
+# configuration written to .config
+#
+make: Leaving directory '<kernel-work>/linux'
+make: Entering directory '<kernel-work>/linux'
+  UPD     include/config/kernel.release
+  GEN     ./Makefile
+  WRAP    arch/arm64/include/generated/uapi/asm/errno.h
+  WRAP    arch/arm64/include/generated/uapi/asm/ioctl.h
+  WRAP    arch/arm64/include/generated/uapi/asm/ioctls.h
+  WRAP    arch/arm64/include/generated/uapi/asm/ipcbuf.h
+  WRAP    arch/arm64/include/generated/uapi/asm/kvm_para.h
+  WRAP    arch/arm64/include/generated/uapi/asm/mman.h
+  WRAP    arch/arm64/include/generated/uapi/asm/msgbuf.h
+  WRAP    arch/arm64/include/generated/uapi/asm/poll.h
+  WRAP    arch/arm64/include/generated/uapi/asm/resource.h
+  WRAP    arch/arm64/include/generated/uapi/asm/sembuf.h
+  WRAP    arch/arm64/include/generated/uapi/asm/shmbuf.h
+  WRAP    arch/arm64/include/generated/uapi/asm/socket.h
+  WRAP    arch/arm64/include/generated/uapi/asm/sockios.h
+  WRAP    arch/arm64/include/generated/uapi/asm/swab.h
+  WRAP    arch/arm64/include/generated/uapi/asm/termbits.h
+  WRAP    arch/arm64/include/generated/uapi/asm/termios.h
+  WRAP    arch/arm64/include/generated/uapi/asm/types.h
+  UPD     include/generated/uapi/linux/version.h
+  UPD     include/generated/utsrelease.h
+  Using <kernel-work>/linux as source for kernel
+  WRAP    arch/arm64/include/generated/asm/bugs.h
+  WRAP    arch/arm64/include/generated/asm/delay.h
+  WRAP    arch/arm64/include/generated/asm/div64.h
+  WRAP    arch/arm64/include/generated/asm/dma.h
+  WRAP    arch/arm64/include/generated/asm/dma-contiguous.h
+  WRAP    arch/arm64/include/generated/asm/early_ioremap.h
+  WRAP    arch/arm64/include/generated/asm/emergency-restart.h
+  WRAP    arch/arm64/include/generated/asm/hw_irq.h
+  WRAP    arch/arm64/include/generated/asm/irq_regs.h
+  WRAP    arch/arm64/include/generated/asm/kdebug.h
+  WRAP    arch/arm64/include/generated/asm/kmap_types.h
+  WRAP    arch/arm64/include/generated/asm/local.h
+  WRAP    arch/arm64/include/generated/asm/local64.h
+  WRAP    arch/arm64/include/generated/asm/mcs_spinlock.h
+  WRAP    arch/arm64/include/generated/asm/mm-arch-hooks.h
+  WRAP    arch/arm64/include/generated/asm/msi.h
+  WRAP    arch/arm64/include/generated/asm/preempt.h
+  WRAP    arch/arm64/include/generated/asm/qrwlock.h
+  WRAP    arch/arm64/include/generated/asm/qspinlock.h
+  WRAP    arch/arm64/include/generated/asm/rwsem.h
+  WRAP    arch/arm64/include/generated/asm/segment.h
+  WRAP    arch/arm64/include/generated/asm/serial.h
+  WRAP    arch/arm64/include/generated/asm/set_memory.h
+  WRAP    arch/arm64/include/generated/asm/sizes.h
+  WRAP    arch/arm64/include/generated/asm/switch_to.h
+  WRAP    arch/arm64/include/generated/asm/trace_clock.h
+  WRAP    arch/arm64/include/generated/asm/unaligned.h
+  WRAP    arch/arm64/include/generated/asm/user.h
+  WRAP    arch/arm64/include/generated/asm/vga.h
+  WRAP    arch/arm64/include/generated/asm/xor.h
+  HOSTCC  scripts/dtc/dtc.o
+  CC      kernel/bounds.s
+  HOSTCC  scripts/dtc/flattree.o
+  UPD     include/generated/timeconst.h
+  UPD     include/generated/bounds.h
+  CC      arch/arm64/kernel/asm-offsets.s
+  HOSTCC  scripts/dtc/fstree.o
+  HOSTCC  scripts/dtc/data.o
+  HOSTCC  scripts/dtc/livetree.o
+  HOSTCC  scripts/dtc/treesource.o
+  UPD     include/generated/asm-offsets.h
+  CALL    <kernel-work>/linux/scripts/checksyscalls.sh
+  HOSTCC  scripts/dtc/srcpos.o
+  HOSTCC  scripts/genksyms/genksyms.o
+  HOSTCC  scripts/dtc/checks.o
+  YACC    scripts/genksyms/parse.tab.c
+  LEX     scripts/genksyms/lex.lex.c
+  YACC    scripts/genksyms/parse.tab.h
+  HOSTCC  scripts/dtc/util.o
+  HOSTCC  scripts/genksyms/parse.tab.o
+  LEX     scripts/dtc/dtc-lexer.lex.c
+  YACC    scripts/dtc/dtc-parser.tab.h
+  HOSTCC  scripts/genksyms/lex.lex.o
+  YACC    scripts/dtc/dtc-parser.tab.c
+  HOSTCC  scripts/dtc/dtc-lexer.lex.o
+  HOSTLD  scripts/genksyms/genksyms
+  CC      scripts/mod/empty.o
+  HOSTCC  scripts/dtc/dtc-parser.tab.o
+  HOSTCC  scripts/mod/mk_elfconfig
+  HOSTLD  scripts/dtc/dtc
+  CC      scripts/mod/devicetable-offsets.s
+  MKELF   scripts/mod/elfconfig.h
+  HOSTCC  scripts/mod/modpost.o
+  LDS     arch/arm64/kernel/vdso/vdso.lds
+  CC      arch/arm64/kernel/vdso/vgettimeofday.o
+  AS      arch/arm64/kernel/vdso/note.o
+  AS      arch/arm64/kernel/vdso/sigreturn.o
+  LD      arch/arm64/kernel/vdso/vdso.so.dbg
+  VDSOSYM include/generated/vdso-offsets.h
+  UPD     scripts/mod/devicetable-offsets.h
+  HOSTCC  scripts/mod/sumversion.o
+  HOSTCC  scripts/mod/file2alias.o
+  LDS     arch/arm64/kernel/vdso32/vdso.lds
+  CC32    arch/arm64/kernel/vdso32/note.o
+  CC32    arch/arm64/kernel/vdso32/vgettimeofday.o
+  AS32    arch/arm64/kernel/vdso32/sigreturn.o
+  HOSTCC  arch/arm64/kernel/vdso32/../../../arm/vdso/vdsomunge
+  HOSTLD  scripts/mod/modpost
+  HOSTCC  scripts/selinux/genheaders/genheaders
+  LD32    arch/arm64/kernel/vdso32/vdso.so.raw
+  MUNGE   arch/arm64/kernel/vdso32/vdso.so.dbg
+  VDSOSYM include/generated/vdso32-offsets.h
+  HOSTCC  scripts/selinux/mdp/mdp
+  HOSTCC  scripts/bin2c
+  HOSTCC  scripts/kallsyms
+  HOSTCC  scripts/sortextable
+  HOSTCC  scripts/asn1_compiler
+  HOSTCC  scripts/extract-cert
+  DTC     arch/arm64/boot/dts/oculus/hollywood/../kona-oculus.dtb
+  DTC     arch/arm64/boot/dts/oculus/hollywood/../kona-v2-oculus.dtb
+  DTC     arch/arm64/boot/dts/oculus/hollywood/../kona-v2.1-oculus.dtb
+  DTC     arch/arm64/boot/dts/oculus/hollywood/hollywood-dvt-overlay.dtbo
+  DTC     arch/arm64/boot/dts/oculus/hollywood/hollywood-evt1-overlay.dtbo
+arch/arm64/boot/dts/oculus/hollywood/hollywood-dvt-overlay.dtbo: Warning (gpios_property): /fragment@74/__overlay__/cm710x_snd: Missing property '#gpio-cells' in node /fragment@74/__overlay__/pri_mi2s_gpios or bad phandle (referred from qcom,pri-mi2s-gpios[0])
+arch/arm64/boot/dts/oculus/hollywood/hollywood-evt1-overlay.dtbo: Warning (gpios_property): /fragment@74/__overlay__/cm710x_snd: Missing property '#gpio-cells' in node /fragment@74/__overlay__/pri_mi2s_gpios or bad phandle (referred from qcom,pri-mi2s-gpios[0])
+  DTC     arch/arm64/boot/dts/oculus/hollywood/hollywood-evt2-overlay.dtbo
+  DTC     arch/arm64/boot/dts/oculus/hollywood/hollywood-p1.1-overlay.dtbo
+arch/arm64/boot/dts/oculus/hollywood/hollywood-p1.1-overlay.dtbo: Warning (gpios_property): /fragment@74/__overlay__/cm710x_snd: Missing property '#gpio-cells' in node /fragment@74/__overlay__/pri_mi2s_gpios or bad phandle (referred from qcom,pri-mi2s-gpios[0])
+arch/arm64/boot/dts/oculus/hollywood/hollywood-evt2-overlay.dtbo: Warning (gpios_property): /fragment@74/__overlay__/cm710x_snd: Missing property '#gpio-cells' in node /fragment@74/__overlay__/pri_mi2s_gpios or bad phandle (referred from qcom,pri-mi2s-gpios[0])
+  DTC     arch/arm64/boot/dts/oculus/hollywood/hollywood-poc2-overlay.dtbo
+  DTC     arch/arm64/boot/dts/oculus/hollywood/hollywood-pvt-b-overlay.dtbo
+arch/arm64/boot/dts/oculus/hollywood/hollywood-pvt-b-overlay.dtbo: Warning (gpios_property): /fragment@74/__overlay__/cm710x_snd: Missing property '#gpio-cells' in node /fragment@74/__overlay__/pri_mi2s_gpios or bad phandle (referred from qcom,pri-mi2s-gpios[0])
+arch/arm64/boot/dts/oculus/hollywood/hollywood-poc2-overlay.dtbo: Warning (gpios_property): /fragment@74/__overlay__/cm710x_snd: Missing property '#gpio-cells' in node /fragment@74/__overlay__/pri_mi2s_gpios or bad phandle (referred from qcom,pri-mi2s-gpios[0])
+arch/arm64/boot/dts/oculus/hollywood/hollywood-poc2-overlay.dtbo: Warning (interrupts_property): /fragment@175/__overlay__/syncboss_nrf@0/timesync@0: Missing interrupt-parent
+make: Leaving directory '<kernel-work>/linux'
+dcb05bf93bdd5cac4556aee42572c29f65fc839297f4f33eb258cec0504a5f8f  .config
+962a4d6195410ac378071c0119ac746e1a42577da43422255eb3186c8926745b  arch/arm64/boot/dts/oculus/hollywood/hollywood-dvt-overlay.dtbo
+54754dbbe09620c65ef6dede184ae8115c18b219fa1b6d1fa84b7046ba63fd9a  arch/arm64/boot/dts/oculus/hollywood/hollywood-evt1-overlay.dtbo
+9d244d794e52416ade30de1fc789c24161fa5c59ce405fc7ec5bf90da9b51595  arch/arm64/boot/dts/oculus/hollywood/hollywood-evt2-overlay.dtbo
+c91f0abf143a5876bb9e39bd46aa04f7a0ee9861dd2c6b6ae23b6e01a9cafd9b  arch/arm64/boot/dts/oculus/hollywood/hollywood-p1.1-overlay.dtbo
+a8fe771273b52d6798d2dd8b5c4a041aed92f9737ec8c393bbd7cb757a3cd4f1  arch/arm64/boot/dts/oculus/hollywood/hollywood-poc2-overlay.dtbo
+76bb60a56763efafbea7c79f8afb3a6219f2eef26b55e32f0c7db3f0cddecd3d  arch/arm64/boot/dts/oculus/hollywood/hollywood-pvt-b-overlay.dtbo
+153da7ccd5c8a8388b43278f3d2385364d4291008274222aabea8ab384cb74f4  arch/arm64/boot/dts/oculus/kona-oculus.dtb
+396d9bbf532f13cd2ca45109140effe43eece7ae5c04399305c4a0880e0e6b52  arch/arm64/boot/dts/oculus/kona-v2-oculus.dtb
+84b90415826f2735baf448a4848bb38598661d3f4aed1fb73a463bd8e692f655  arch/arm64/boot/dts/oculus/kona-v2.1-oculus.dtb
+
+Verificación SHA-256 de los archivos generados
+.config: OK
+arch/arm64/boot/dts/oculus/hollywood/hollywood-dvt-overlay.dtbo: OK
+arch/arm64/boot/dts/oculus/hollywood/hollywood-evt1-overlay.dtbo: OK
+arch/arm64/boot/dts/oculus/hollywood/hollywood-evt2-overlay.dtbo: OK
+arch/arm64/boot/dts/oculus/hollywood/hollywood-p1.1-overlay.dtbo: OK
+arch/arm64/boot/dts/oculus/hollywood/hollywood-poc2-overlay.dtbo: OK
+arch/arm64/boot/dts/oculus/hollywood/hollywood-pvt-b-overlay.dtbo: OK
+arch/arm64/boot/dts/oculus/kona-oculus.dtb: OK
+arch/arm64/boot/dts/oculus/kona-v2-oculus.dtb: OK
+arch/arm64/boot/dts/oculus/kona-v2.1-oculus.dtb: OK

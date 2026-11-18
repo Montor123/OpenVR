@@ -2,6 +2,15 @@
 
 Laboratorio abierto para investigar un sistema de realidad virtual basado en AOSP para Meta Quest 2. Esta primera versión incluye una sala VR en el navegador, un laboratorio Android para APK y una prueba OpenXR nativa con Monado. Se ejecuta en un PC sin conectar el visor.
 
+## Desarrollo de OpenVR OS
+
+El producto Android de desarrollo usa AOSP 14 en Cuttlefish e incluye el lanzador OpenVR. En paralelo se prepara el kernel ARM64 Hollywood para el visor físico. Los árboles de dispositivos de Meta ya se han compilado y verificado por hash. Sigue pendiente arrancar el producto AOSP completo y validar una ruta de arranque para Quest 2.
+
+- [Estado de OpenVR OS y verificación](docs/system.md)
+- [Compilar y exportar el producto AOSP](aosp/README.md)
+- [Compilar el kernel Hollywood](kernel/README.md)
+- [Leer el inventario del visor en Windows](device/README.md)
+
 ## Inicio rápido en Windows
 
 Con Docker Desktop en modo Linux y WSL2, descarga la imagen y su SHA-256 desde [OpenVR 0.1.0](https://github.com/Montor123/OpenVR/releases/tag/v0.1.0). El archivo tar mide **6 807 040 bytes**. En PowerShell:

@@ -79,12 +79,32 @@ RUN --mount=type=secret,id=apt_ca,mode=0444 \
     && GIT_SSL_CAINFO="$SSL_CERT_FILE" git -C /opt/git-repo fetch --depth=1 https://gerrit.googlesource.com/git-repo refs/tags/v2.54:refs/tags/v2.54 \
     && test "$(git -C /opt/git-repo rev-parse 'FETCH_HEAD^{commit}')" = "${REPO_COMMIT}" \
     && git -C /opt/git-repo checkout --detach "${REPO_COMMIT}" \
+    && chown -R openvr:openvr /opt/git-repo \
     && ln -s /opt/git-repo/repo /usr/local/bin/repo
+COPY --chown=1000:1000 aosp/ /opt/openvr/aosp/
 COPY --chmod=0755 aosp/build.sh /usr/local/bin/openvr-aosp
 USER 1000:1000
 ENV REPO_COMMIT=${REPO_COMMIT}
 WORKDIR /data/aosp
 ENTRYPOINT ["/usr/local/bin/openvr-aosp"]
+CMD ["help"]
+
+FROM packages AS kernel
+RUN --mount=type=secret,id=apt_ca,mode=0444 \
+    export SSL_CERT_FILE=${SSL_CERT_FILE:-/etc/ssl/certs/ca-certificates.crt}; \
+    if [ -r /run/secrets/apt_ca ]; then export SSL_CERT_FILE=/run/secrets/apt_ca; fi; \
+    apt-get -o Acquire::https::CaInfo="$SSL_CERT_FILE" -o APT::Update::Error-Mode=any update \
+    && apt-get -o Acquire::https::CaInfo="$SSL_CERT_FILE" install -y --no-install-recommends \
+      bc bison build-essential cpio curl flex git libelf-dev libssl-dev openssl pahole pkg-config \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd -m -u 1000 -s /bin/bash openvr \
+    && install -d -o openvr -g openvr /data/kernel /data/results \
+    && touch /data/kernel/.keep /data/results/.keep
+COPY --chmod=0644 kernel/sources.sh /opt/openvr/kernel/sources.sh
+COPY --chmod=0755 kernel/build.sh /opt/openvr/kernel/build.sh
+USER 1000:1000
+WORKDIR /data/kernel
+ENTRYPOINT ["/opt/openvr/kernel/build.sh"]
 CMD ["help"]
 
 FROM demo AS default
