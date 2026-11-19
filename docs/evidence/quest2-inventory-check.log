@@ -1,0 +1,11 @@
+Pruebas de regresión del inventario Quest 2 con ADB simulado.
+7.4.13
+$ bash device/tests/test-inventory.sh
+Inventario guardado en <directorio de pruebas>/results/quest2-inventory.json
+Inventario guardado en <directorio de pruebas>/selected.json
+Inventario guardado en <directorio de pruebas>/partial.json
+Inventario guardado en <directorio de pruebas>/fallback.json
+Inventario guardado en <directorio de pruebas>/denied.json
+Inventario guardado en <directorio de pruebas>/noisy.json
+Inventario guardado en <directorio de pruebas>/conflict.json
+OK: ADB de solo lectura, arranque, placa, nombres de partición, rutas alternativas y errores sin serie.

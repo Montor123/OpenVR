@@ -17,9 +17,17 @@ adb devices
 
 La salida predeterminada es `results/quest2-inventory.json`. Cada ejecución comprueba `hollywood` o el nombre de modelo Quest 2 y guarda un JSON nuevo. Con `-Display`, `physical_size` y `physical_density_dpi` son los valores etiquetados como `Physical` por `wm`. Sirven para comparar la vista del gestor de ventanas entre compilaciones. Para identificar las características del panel y la óptica se necesitan sus propias fuentes y mediciones.
 
-Las propiedades ausentes o fuera del formato esperado aparecen como `null`. `read_errors` enumera las lecturas cuyo comando devolvió un error. Las propiedades de arranque describen lo que informa el firmware desde Android. La verificación del arranque de otro sistema requiere evidencia adicional.
+El inventario conserva las propiedades originales y añade tres bloques de diagnóstico.
 
-Las únicas operaciones de ADB son enumerar transportes y leer propiedades seleccionadas, versión y arquitectura del kernel y, cuando se pide, la configuración de pantalla. El JSON omite los identificadores de transporte, registros del dispositivo, cuentas y archivos del visor.
+| Bloque | Contenido |
+| --- | --- |
+| `boot` | Ranura activa `a` o `b`, estado de arranque verificado, bloqueo declarado y estado de AVB. Si las dos propiedades de ranura contienen valores válidos distintos, `slot_conflict` vale `true` y la ranura queda como `null`. |
+| `board` | Modelo publicado por el árbol de dispositivos y propiedades de revisión y SKU que estén disponibles. Una denominación genérica del SoC puede requerir otras fuentes para identificar la revisión del visor. |
+| `partitions` | Nombres visibles para ADB en `by-name` y `mapper`. Cada lista incluye el directorio consultado. Una lista accesible vacía se registra como `[]`. Si el directorio queda inaccesible, la lista y el origen son `null`. |
+
+Las propiedades ausentes o fuera del formato esperado aparecen como `null`. `read_errors` registra lecturas fallidas y los grupos cuyo origen siguió sin estar disponible tras agotar sus rutas de lectura. El estado de arranque lo declara el firmware de Android. La capacidad de arrancar y recuperar otro sistema requiere una prueba aparte.
+
+ADB enumera los dispositivos y lee propiedades, la versión del kernel, el modelo del árbol, los nombres de particiones y, si se solicita, la configuración de pantalla. El inventario omite los identificadores de transporte, los registros, las cuentas y el contenido de las particiones. Guarda el JSON en local y revísalo antes de compartirlo para la fase F2. [Hoja de ruta](../docs/quest2-roadmap.md)
 
 ## Prueba de la herramienta
 
@@ -30,3 +38,5 @@ bash device/tests/test-inventory.sh
 ```
 
 La prueba usa un ejecutable ADB de prueba con datos ficticios.
+
+[Resultado de la prueba con PowerShell 7.4.13](../docs/evidence/quest2-inventory-check.log)

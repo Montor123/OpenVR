@@ -80,6 +80,36 @@ function Read-InventoryValue {
     return $response.Text
 }
 
+function Read-DeviceTreeModel {
+    foreach ($path in @('/sys/firmware/devicetree/base/model', '/proc/device-tree/model')) {
+        $response = Invoke-AdbRead -Arguments @('-s', $transport, 'shell', 'cat', $path)
+        $value = $response.Text.TrimEnd([char] 0).Trim()
+        if ($response.Succeeded -and $value -cne $transport -and $value -cmatch '^[A-Za-z0-9 _.,:/+@()=\-]{1,512}$') {
+            return $value
+        }
+    }
+    $readErrors.Add('board.model')
+    return $null
+}
+
+function Read-PartitionNames {
+    param([string] $Name, [string[]] $Paths)
+
+    foreach ($path in $Paths) {
+        $response = Invoke-AdbRead -Arguments @('-s', $transport, 'shell', 'ls', '-1', $path)
+        if ($response.Succeeded) {
+            $names = @(
+                $response.Text -split '\r?\n' | Where-Object {
+                    $_ -ine $transport -and $_ -cmatch '^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$'
+                } | Sort-Object -CaseSensitive -Unique
+            )
+            return [ordered] @{ source = $path; names = $names }
+        }
+    }
+    $readErrors.Add($Name)
+    return [ordered] @{ source = $null; names = $null }
+}
+
 $model = Read-InventoryValue -Name 'ro.product.model' -Arguments @('getprop', 'ro.product.model')
 $productDevice = Read-InventoryValue -Name 'ro.product.device' -Arguments @('getprop', 'ro.product.device')
 if ($productDevice -ine 'hollywood' -and $model -inotmatch '^(?:(?:Oculus|Meta) )?Quest 2$') {
@@ -94,6 +124,9 @@ $propertyNames = @(
     'ro.product.board'
     'ro.hardware'
     'ro.board.platform'
+    'ro.revision'
+    'ro.boot.hwrev'
+    'ro.boot.hardware.sku'
     'ro.soc.manufacturer'
     'ro.soc.model'
     'ro.product.cpu.abilist'
@@ -108,6 +141,7 @@ $propertyNames = @(
     'ro.vendor.build.security_patch'
     'ro.bootimage.build.fingerprint'
     'ro.bootloader'
+    'ro.boot.slot'
     'ro.boot.slot_suffix'
     'ro.boot.verifiedbootstate'
     'ro.boot.vbmeta.device_state'
@@ -120,6 +154,24 @@ foreach ($property in $propertyNames) {
     $properties[$property] = Read-InventoryValue -Name $property -Arguments @('getprop', $property)
 }
 
+$slots = @(
+    foreach ($property in @('ro.boot.slot_suffix', 'ro.boot.slot')) {
+        if ($properties[$property] -cmatch '^_?([ab])$') {
+            $Matches[1]
+        }
+    }
+)
+$slotConflict = $slots.Count -eq 2 -and $slots[0] -cne $slots[1]
+$activeSlot = $null
+if ($slots.Count -gt 0 -and -not $slotConflict) {
+    $activeSlot = $slots[0]
+}
+$flashLocked = switch ($properties['ro.boot.flash.locked']) {
+    '0' { $false }
+    '1' { $true }
+    default { $null }
+}
+
 $report = [ordered] @{
     schema_version = 1
     collected_utc_date = [DateTime]::UtcNow.ToString('yyyy-MM-dd')
@@ -127,6 +179,23 @@ $report = [ordered] @{
     kernel = [ordered] @{
         release = Read-InventoryValue -Name 'kernel.release' -Arguments @('uname', '-r')
         machine = Read-InventoryValue -Name 'kernel.machine' -Arguments @('uname', '-m')
+    }
+    boot = [ordered] @{
+        active_slot = $activeSlot
+        slot_conflict = $slotConflict
+        verified_boot_state = $properties['ro.boot.verifiedbootstate']
+        flash_locked = $flashLocked
+        vbmeta_device_state = $properties['ro.boot.vbmeta.device_state']
+    }
+    board = [ordered] @{
+        model = Read-DeviceTreeModel
+        boot_hardware_revision = $properties['ro.boot.hwrev']
+        hardware_revision = $properties['ro.revision']
+        boot_hardware_sku = $properties['ro.boot.hardware.sku']
+    }
+    partitions = [ordered] @{
+        by_name = Read-PartitionNames -Name 'partitions.by_name' -Paths @('/dev/block/by-name', '/dev/block/bootdevice/by-name')
+        mapper = Read-PartitionNames -Name 'partitions.mapper' -Paths @('/dev/block/mapper')
     }
 }
 
