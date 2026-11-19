@@ -5,6 +5,7 @@ El objetivo es un sistema Android abierto para Quest 2 que arranque de forma rec
 | Hito | Estado | Evidencia necesaria para darlo por completado |
 | --- | --- | --- |
 | Producto Android virtual | Receta de compilación, lanzador HOME y verificador ADB implementados | Compilar el producto, arrancarlo con su kernel virtual y verificar HOME, Ajustes e instalación de una APK |
+| Kernel Hollywood ARM64 | Compilado desde el árbol de Meta | Image ARM64 de 30 371 856 bytes, 27 módulos y hashes verificados. Falta validarlo en el visor |
 | Device Tree Hollywood | Probado con el árbol Linux 4.19.325 publicado por Meta | Se generaron tres DTB Kona y seis DTBO Hollywood con sus SHA‑256 |
 | Configuración de pantalla Hollywood | Identificadas las variantes candidatas, selección, alimentación, retroiluminación e IPD | Identificar en un visor la revisión, el panel activo y sus dependencias en el sistema de esa unidad |
 | Entorno XR | Monado ha abierto una sesión OpenXR en Linux con entrada sintética | Portar o integrar un runtime Android y probar una sesión con gráficos e interacción en el producto |
@@ -20,6 +21,8 @@ El lanzador enumera apps instaladas, permite abrirlas y expone Ajustes. AAPT2 va
 Este entorno tiene dos CPU disponibles para compilación, 8 GiB de límite de memoria y una capacidad de disco aproximada de 8 GB. Una sincronización y compilación completas de AOSP requieren un anfitrión de mayor capacidad. Para arrancar Cuttlefish se necesita además KVM. [Requisitos de AOSP](https://source.android.com/docs/setup/start/requirements) · [Requisitos de Cuttlefish](https://source.android.com/docs/devices/cuttlefish/get-started)
 
 ## Preparar el port físico
+
+La compilación completa de Linux 4.19.325 terminó con Image ARM64, 27 módulos, Module.symvers y los nueve archivos de Device Tree. Se verificaron los 40 hashes de salida. La configuración y los árboles coinciden con la compilación de Device Tree por separado. Para Clang 17 se conservaron como advertencias los diagnósticos de prototipos heredados en dos objetos de Wi‑Fi. [Salida de compilación](evidence/hollywood-compile.log) · [SHA‑256 de los artefactos](evidence/hollywood-compile.sha256)
 
 El kernel Hollywood se construye con sus fragmentos de Meta y herramientas de AOSP fijadas por revisión. La prueba local de Device Tree completó Kconfig y generó los tres DTB y seis DTBO. DTC reportó advertencias sobre GPIO de audio y una entrada de interrupción en POC2. Con libfdt se pudieron aplicar quince de las dieciocho combinaciones de DTB base y overlay. POC2 falló en las tres bases porque faltan los símbolos extcon_storage_cd y ufshc_card. Esa prueba de estructura no determina el overlay que corresponde a un visor. [Receta del kernel](../kernel/README.md) · [Salida de DTC](evidence/hollywood-dtbs.log) · [SHA‑256](evidence/hollywood-dtbs.sha256) · [Prueba offline de overlays](evidence/hollywood-overlay-check.log)
 

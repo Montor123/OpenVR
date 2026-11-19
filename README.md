@@ -4,7 +4,7 @@ Laboratorio abierto para investigar un sistema de realidad virtual basado en AOS
 
 ## Desarrollo de OpenVR OS
 
-El producto Android de desarrollo usa AOSP 14 en Cuttlefish e incluye el lanzador OpenVR. En paralelo se prepara el kernel ARM64 Hollywood para el visor físico. Los árboles de dispositivos de Meta ya se han compilado y verificado por hash. Sigue pendiente arrancar el producto AOSP completo y validar una ruta de arranque para Quest 2.
+El producto Android de desarrollo usa AOSP 14 en Cuttlefish e incluye el lanzador OpenVR. En paralelo se compiló el kernel ARM64 Hollywood de Meta, con 27 módulos y los árboles de dispositivos verificados por SHA‑256. Sigue pendiente arrancar el producto AOSP completo y validar una ruta de arranque para Quest 2.
 
 - [Estado de OpenVR OS y verificación](docs/system.md)
 - [Compilar y exportar el producto AOSP](aosp/README.md)
