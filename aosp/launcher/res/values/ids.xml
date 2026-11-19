@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tab_home" type="id" />
+    <item name="tab_library" type="id" />
+    <item name="tab_settings" type="id" />
+    <item name="library_apps" type="id" />
+    <item name="library_games" type="id" />
+    <item name="library_search" type="id" />
+    <item name="app_open" type="id" />
+    <item name="app_label" type="id" />
+    <item name="app_favorite" type="id" />
+    <item name="settings_android" type="id" />
+    <item name="settings_wifi" type="id" />
+    <item name="settings_bluetooth" type="id" />
+    <item name="settings_display" type="id" />
+    <item name="settings_sound" type="id" />
+    <item name="settings_storage" type="id" />
+    <item name="settings_info" type="id" />
+</resources>

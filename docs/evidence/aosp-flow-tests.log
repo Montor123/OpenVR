@@ -1,0 +1,37 @@
+test_archive_entry_outside_output_is_rejected (test_prepare_guest.GuestBundleTests.test_archive_entry_outside_output_is_rejected) ... ok
+test_corrupted_file_stops_before_extraction (test_prepare_guest.GuestBundleTests.test_corrupted_file_stops_before_extraction) ... ok
+test_dry_run_validates_without_extracting (test_prepare_guest.GuestBundleTests.test_dry_run_validates_without_extracting) ... ok
+test_missing_boot_image_stops_before_extraction (test_prepare_guest.GuestBundleTests.test_missing_boot_image_stops_before_extraction) ... ok
+test_valid_bundle_preserves_tools_and_separates_images (test_prepare_guest.GuestBundleTests.test_valid_bundle_preserves_tools_and_separates_images) ... ok
+test_boot_timeout (test_verify_guest.GuestVerifierTest.test_boot_timeout) ... ok
+test_complete_flow (test_verify_guest.GuestVerifierTest.test_complete_flow) ... ok
+test_home_and_settings_only (test_verify_guest.GuestVerifierTest.test_home_and_settings_only) ... ok
+test_install_failure_reported_even_with_zero_exit (test_verify_guest.GuestVerifierTest.test_install_failure_reported_even_with_zero_exit) ... ok
+test_installed_sha_mismatch (test_verify_guest.GuestVerifierTest.test_installed_sha_mismatch) ... ok
+test_marker_required_for_resumed_activity (test_verify_guest.GuestVerifierTest.test_marker_required_for_resumed_activity) ... ok
+test_missing_settings_control (test_verify_guest.GuestVerifierTest.test_missing_settings_control) ... ok
+test_no_success_for_demo_only_in_task_history (test_verify_guest.GuestVerifierTest.test_no_success_for_demo_only_in_task_history) ... ok
+test_nonvirtual_device (test_verify_guest.GuestVerifierTest.test_nonvirtual_device) ... ok
+test_refuses_non_local_tcp (test_verify_guest.GuestVerifierTest.test_refuses_non_local_tcp) ... ok
+test_refuses_usb_serial (test_verify_guest.GuestVerifierTest.test_refuses_usb_serial) ... ok
+test_rejects_stale_ui (test_verify_guest.GuestVerifierTest.test_rejects_stale_ui) ... ok
+test_wrong_home (test_verify_guest.GuestVerifierTest.test_wrong_home) ... ok
+test_wrong_library_component (test_verify_guest.GuestVerifierTest.test_wrong_library_component) ... ok
+test_wrong_product (test_verify_guest.GuestVerifierTest.test_wrong_product) ... ok
+test_wrong_user (test_verify_guest.GuestVerifierTest.test_wrong_user) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 16.305s
+
+OK
+cvd-host_package.tar.gz: 202 bytes, SHA-256 correcto
+openvr_cf_x86_64_phone-img.zip: 583 bytes, SHA-256 correcto
+cvd-host_package.tar.gz: 202 bytes, SHA-256 correcto
+cvd-host_package.tar.gz: 202 bytes, SHA-256 correcto
+openvr_cf_x86_64_phone-img.zip: 472 bytes, SHA-256 correcto
+Contenido declarado sin comprimir: 111 bytes
+cvd-host_package.tar.gz: 202 bytes, SHA-256 correcto
+openvr_cf_x86_64_phone-img.zip: 365 bytes, SHA-256 correcto
+cvd-host_package.tar.gz: 202 bytes, SHA-256 correcto
+openvr_cf_x86_64_phone-img.zip: 472 bytes, SHA-256 correcto
+Contenido declarado sin comprimir: 111 bytes

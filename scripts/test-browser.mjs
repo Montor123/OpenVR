@@ -11,6 +11,8 @@ const assets = new Set(["/", "/app.js", "/scene.js", "/style.css"]);
 const mime = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript" };
 const posts = new Map();
 let online = false;
+let guest = "emulator";
+let bootState = "disconnected";
 let failStatus = false;
 let failLogs = false;
 
@@ -24,7 +26,7 @@ function fixtureServer() {
 
     if (url.pathname === "/api/status") {
       if (failStatus) return json({ error: "Servicio en pausa" }, 503);
-      return json({ android: online, desktop: online });
+      return json({ android: online, desktop: guest === "emulator", guest, bootState });
     }
     if (url.pathname === "/api/logs") {
       if (failLogs) return json({ error: "Registro interrumpido" }, 503);
@@ -99,6 +101,7 @@ async function testFixtureApi(page) {
   await page.getByText("registro de demo", { exact: true }).waitFor();
   assert(await page.locator("#install-apk").isDisabled());
   online = true;
+  bootState = "ready";
   await page.getByText("ADB listo", { exact: true }).waitFor({ timeout: 10000 });
   assert.equal(await page.locator("#desktop-link").getAttribute("href"), "http://127.0.0.1:6080/vnc.html?autoconnect=true&resize=scale");
   const testApk = Buffer.from([80, 75, 3, 4]);
@@ -126,6 +129,25 @@ async function testFixtureApi(page) {
   assert(await page.locator("#install-apk").isDisabled());
   assert(await page.locator("#desktop-link").isHidden());
   console.log("OK: errores de ADB, registros y servidor tratados en la interfaz.");
+
+  failStatus = false;
+  guest = "cuttlefish";
+  online = false;
+  bootState = "booting";
+  await page.getByText("Android arrancando", { exact: true }).waitFor({ timeout: 10000 });
+  assert(await page.locator("#install-apk").isDisabled());
+  assert(await page.locator("#example-actions").isHidden());
+  assert(await page.locator("#boot-guide").isVisible());
+  bootState = "wrong-guest";
+  await page.getByText("Invitado distinto", { exact: true }).waitFor({ timeout: 10000 });
+  assert(await page.locator("#install-apk").isDisabled());
+  online = true;
+  bootState = "ready";
+  await page.getByText("ADB listo", { exact: true }).waitFor({ timeout: 10000 });
+  assert(await page.locator("#install-apk").isEnabled());
+  assert.equal(await page.locator("#desktop-link").getAttribute("href"), "https://localhost:8443/");
+  await page.getByText("Busca la aplicación instalada en la Biblioteca de OpenVR.").waitFor();
+  console.log("OK: Cuttlefish separa el arranque y la pantalla del invitado de la instalación de APK.");
 }
 
 async function testLiveApi(page, base) {

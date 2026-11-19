@@ -2,11 +2,14 @@ import { initScene } from "./scene.js";
 
 const androidDot = document.querySelector("#android-dot");
 const androidLabel = document.querySelector("#android-status-label");
+const guestLabel = document.querySelector("#guest-label");
+const systemHint = document.querySelector("#system-hint");
 const apkForm = document.querySelector("#apk-form");
 const apkFile = document.querySelector("#apk-file");
 const installApk = document.querySelector("#install-apk");
 const installDemo = document.querySelector("#install-demo");
 const launchDemo = document.querySelector("#launch-demo");
+const exampleActions = document.querySelector("#example-actions");
 const apkHint = document.querySelector("#apk-hint");
 const apkOutput = document.querySelector("#apk-output");
 const desktopLink = document.querySelector("#desktop-link");
@@ -37,14 +40,35 @@ async function refreshStatus() {
   try {
     const status = await request("/api/status");
     androidReady = status.android === true;
-    androidLabel.textContent = androidReady ? "ADB listo" : "ADB sin conexión";
+    const cuttlefish = status.guest === "cuttlefish";
+    const emulator = status.guest === "emulator";
+    const labels = {
+      disabled: "Android desactivado",
+      disconnected: "ADB sin conexión",
+      booting: "Android arrancando",
+      "wrong-guest": "Invitado distinto",
+      ready: "ADB listo",
+    };
+    androidLabel.textContent = labels[status.bootState] ?? "Estado desconocido";
+    guestLabel.textContent = cuttlefish ? "OpenVR OS en Cuttlefish" : emulator ? "Android Emulator" : "Modo demo";
+    systemHint.textContent = cuttlefish
+      ? "Arranca la imagen OpenVR OS con la guía. Cuando esté lista, abre su pantalla en Cuttlefish."
+      : emulator
+        ? "Inicia Android Emulator desde el perfil dev para habilitar ADB."
+        : "Arranca OpenVR OS en Cuttlefish o usa el perfil dev para probar aplicaciones en Android Emulator.";
     apkHint.textContent = androidReady
-      ? "Abre tus APK instaladas desde el escritorio Android."
-      : "Inicia el emulador desde el perfil dev para habilitar ADB.";
+      ? (cuttlefish ? "Busca la aplicación instalada en la Biblioteca de OpenVR." : "Abre las aplicaciones instaladas desde el escritorio Android.")
+      : "La instalación se habilita cuando Android termina de arrancar.";
+    exampleActions.hidden = !emulator;
     if (status.desktop === true) {
       const url = new URL("http://localhost:6080/vnc.html?autoconnect=true&resize=scale");
       url.hostname = window.location.hostname;
       desktopLink.href = url.href;
+      desktopLink.textContent = "Escritorio Android ↗";
+      desktopLink.hidden = false;
+    } else if (cuttlefish && androidReady) {
+      desktopLink.href = "https://localhost:8443/";
+      desktopLink.textContent = "Pantalla de OpenVR OS ↗";
       desktopLink.hidden = false;
     } else {
       desktopLink.hidden = true;
@@ -52,7 +76,10 @@ async function refreshStatus() {
   } catch {
     androidReady = false;
     androidLabel.textContent = "Servidor sin conexión";
-    apkHint.textContent = "Comprueba que el servidor local esté en ejecución.";
+    guestLabel.textContent = "Estado no disponible";
+    systemHint.textContent = "Comprueba que el servidor local esté en ejecución.";
+    apkHint.textContent = "La instalación necesita un invitado Android conectado.";
+    exampleActions.hidden = true;
     desktopLink.hidden = true;
   }
   androidDot.classList.toggle("live", androidReady);

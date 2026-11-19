@@ -5,7 +5,7 @@ base=${1:-http://127.0.0.1:8080}
 printf 'Salud HTTP: '
 curl -fsS "$base/healthz" | grep -F '"ok":true'
 printf 'Estado demo: '
-curl -fsS "$base/api/status" | grep -F '{"android":false,"desktop":false}'
+curl -fsS "$base/api/status" | grep -F '"bootState":"disabled"'
 printf 'Registro persistente: '
 curl -fsS "$base/api/logs?target=demo" | grep -F 'OpenVR iniciado'
 curl -fsS "$base/" | grep -Fq '<title>OpenVR'
