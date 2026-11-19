@@ -13,6 +13,7 @@ import (
 	"os/exec"
 	"os/signal"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"sync"
 	"syscall"
@@ -24,9 +25,12 @@ import (
 const maxAPK = 256 << 20
 const maxLog = 64 << 10
 
+const cuttlefishProduct = "openvr_cf_x86_64_phone"
+
 type server struct {
-	android   bool
+	guest     string
 	adb       string
+	serial    string
 	results   string
 	log       *log.Logger
 	operation sync.Mutex
@@ -39,10 +43,44 @@ func env(name, fallback string) string {
 	return fallback
 }
 
+func validPort(value string) bool {
+	port, err := strconv.ParseUint(value, 10, 16)
+	return err == nil && port > 0
+}
+
+func guestSettings() (mode, adb, serial string, err error) {
+	mode = os.Getenv("OPENVR_GUEST")
+	if mode == "" {
+		mode = "demo"
+		if os.Getenv("OPENVR_ANDROID") == "1" {
+			mode = "emulator"
+		}
+	}
+	switch mode {
+	case "demo":
+		return mode, "", "", nil
+	case "emulator":
+		return mode, env("OPENVR_ADB", "/data/android/sdk/platform-tools/adb"), "emulator-5554", nil
+	case "cuttlefish":
+		serial = os.Getenv("OPENVR_ANDROID_SERIAL")
+		host, port, splitErr := net.SplitHostPort(serial)
+		if splitErr != nil || (host != "127.0.0.1" && host != "::1") || !validPort(port) {
+			return "", "", "", errors.New("OPENVR_ANDROID_SERIAL debe indicar un transporte ADB de bucle local con puerto")
+		}
+		return mode, env("OPENVR_ADB", "adb"), serial, nil
+	default:
+		return "", "", "", fmt.Errorf("OPENVR_GUEST desconocido: %q", mode)
+	}
+}
+
 func main() {
+	port := env("OPENVR_HTTP_PORT", "8080")
+	if !validPort(port) {
+		log.Fatal("OPENVR_HTTP_PORT debe ser un puerto válido")
+	}
 	if len(os.Args) == 2 && os.Args[1] == "healthcheck" {
 		client := http.Client{Timeout: 2 * time.Second}
-		res, err := client.Get("http://127.0.0.1:8080/healthz")
+		res, err := client.Get("http://" + net.JoinHostPort("127.0.0.1", port) + "/healthz")
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -53,9 +91,14 @@ func main() {
 		return
 	}
 
+	mode, adb, serial, err := guestSettings()
+	if err != nil {
+		log.Fatal(err)
+	}
 	app := &server{
-		android: os.Getenv("OPENVR_ANDROID") == "1",
-		adb:     env("OPENVR_ADB", "/data/android/sdk/platform-tools/adb"),
+		guest:   mode,
+		adb:     adb,
+		serial:  serial,
 		results: env("OPENVR_RESULTS", "/data/results"),
 		log:     log.New(os.Stdout, "", log.LstdFlags|log.LUTC),
 	}
@@ -73,8 +116,12 @@ func main() {
 		app.log.Printf("Registro persistente no disponible: %v", err)
 	}
 
+	address := ":" + port
+	if app.guest == "cuttlefish" {
+		address = net.JoinHostPort("127.0.0.1", port)
+	}
 	httpServer := &http.Server{
-		Addr: ":8080", Handler: app.routes(),
+		Addr: address, Handler: app.routes(),
 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 3 * time.Minute,
 		WriteTimeout: 6 * time.Minute, IdleTimeout: 30 * time.Second,
 		MaxHeaderBytes: 16 << 10,
@@ -89,7 +136,7 @@ func main() {
 			app.log.Print(err)
 		}
 	}()
-	app.log.Printf("OpenVR iniciado en el puerto 8080 (Android habilitado: %t)", app.android)
+	app.log.Printf("OpenVR iniciado en el puerto %s (modo %s)", port, app.guest)
 	if err := httpServer.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 		app.log.Fatal(err)
 	}
@@ -147,7 +194,18 @@ func fail(w http.ResponseWriter, code int, message string) {
 }
 
 func (app *server) runADB(ctx context.Context, args ...string) (string, error) {
-	command := exec.CommandContext(ctx, app.adb, append([]string{"-s", "emulator-5554"}, args...)...)
+	command := exec.CommandContext(ctx, app.adb, append([]string{"-s", app.serial}, args...)...)
+	if app.guest == "cuttlefish" {
+		command.Env = make([]string, 0)
+		for _, entry := range os.Environ() {
+			name, _, _ := strings.Cut(entry, "=")
+			switch name {
+			case "ADB_SERVER_SOCKET", "ANDROID_ADB_SERVER_ADDRESS", "ANDROID_ADB_SERVER_PORT":
+				continue
+			}
+			command.Env = append(command.Env, entry)
+		}
+	}
 	output, err := command.CombinedOutput()
 	content := strings.TrimSpace(string(output))
 	if len(content) > maxLog {
@@ -162,19 +220,40 @@ func (app *server) runADB(ctx context.Context, args ...string) (string, error) {
 	return content, nil
 }
 
-func (app *server) ready(ctx context.Context) bool {
-	if !app.android {
-		return false
+func (app *server) bootState(ctx context.Context) string {
+	if app.guest == "demo" {
+		return "disabled"
 	}
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 3*time.Second)
 	defer cancel()
-	state, err := app.runADB(ctx, "shell", "getprop", "sys.boot_completed")
-	return err == nil && (state == "1" || strings.HasSuffix(state, "\n1"))
+	boot, err := app.runADB(ctx, "shell", "getprop", "sys.boot_completed")
+	if err != nil {
+		return "disconnected"
+	}
+	if boot != "1" && !strings.HasSuffix(boot, "\n1") {
+		return "booting"
+	}
+	if app.guest == "cuttlefish" {
+		product, err := app.runADB(ctx, "shell", "getprop", "ro.product.product.name")
+		if err != nil {
+			return "disconnected"
+		}
+		abi, err := app.runADB(ctx, "shell", "getprop", "ro.product.cpu.abi")
+		if err != nil {
+			return "disconnected"
+		}
+		if product != cuttlefishProduct || abi != "x86_64" {
+			return "wrong-guest"
+		}
+	}
+	return "ready"
 }
 
 func (app *server) status(w http.ResponseWriter, r *http.Request) {
-	writeJSON(w, http.StatusOK, map[string]bool{
-		"android": app.ready(r.Context()), "desktop": app.android,
+	state := app.bootState(r.Context())
+	writeJSON(w, http.StatusOK, map[string]any{
+		"android": state == "ready", "desktop": app.guest == "emulator",
+		"guest": app.guest, "bootState": state,
 	})
 }
 
@@ -204,14 +283,14 @@ func (app *server) logs(w http.ResponseWriter, r *http.Request) {
 	case "", "demo":
 		logText, err = tail(filepath.Join(app.results, "demo.log"))
 	case "android":
-		if !app.android {
-			fail(w, http.StatusServiceUnavailable, "Android está disponible en el perfil dev.")
+		if app.guest == "demo" || (app.guest == "cuttlefish" && app.bootState(r.Context()) != "ready") {
+			fail(w, http.StatusServiceUnavailable, "Conecta un invitado Android del laboratorio para leer sus registros.")
 			return
 		}
 		ctx, cancel := context.WithTimeout(r.Context(), 8*time.Second)
 		defer cancel()
 		logText, err = app.runADB(ctx, "logcat", "-d", "-t", "200")
-		if err != nil {
+		if err != nil && app.guest == "emulator" {
 			logText, err = tail(filepath.Join(app.results, "android-emulator.log"))
 		}
 	default:
@@ -225,8 +304,13 @@ func (app *server) logs(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *server) androidAction(w http.ResponseWriter, r *http.Request, action func(context.Context) (string, error)) {
-	if !app.ready(r.Context()) {
-		fail(w, http.StatusServiceUnavailable, "Inicia Android en el perfil dev y espera a que termine el arranque.")
+	state := app.bootState(r.Context())
+	if state != "ready" {
+		message := "Arranca el invitado Android y espera a que esté listo."
+		if state == "wrong-guest" {
+			message = "ADB no apunta al producto OpenVR para Cuttlefish."
+		}
+		fail(w, http.StatusServiceUnavailable, message)
 		return
 	}
 	if !app.operation.TryLock() {

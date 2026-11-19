@@ -21,7 +21,6 @@
         <h1>Banco de pruebas VR</h1>
         <p>Prueba el visor virtual y tus APK desde el navegador.</p>
       </div>
-      <a class="button subtle" id="desktop-link" target="_blank" rel="noopener noreferrer" hidden>Escritorio Android ↗</a>
     </div>
 
     <div class="workspace">
@@ -87,18 +86,24 @@
     <div class="details">
       <section class="card" aria-labelledby="android-heading">
         <div class="section-head">
-          <div><h2 id="android-heading">Android</h2><p>Instala APK mediante ADB</p></div>
-          <span class="pill" id="android-status"><span class="dot" id="android-dot"></span><span id="android-status-label">Comprobando</span></span>
+          <div><h2 id="android-heading">Sistema Android</h2><p id="guest-label">Comprobando el entorno</p></div>
+          <span class="pill" id="android-status" role="status"><span class="dot" id="android-dot"></span><span id="android-status-label">Comprobando</span></span>
         </div>
         <div class="details-body">
-          <form id="apk-form">
+          <p id="system-hint" class="hint">Esperando el estado del invitado…</p>
+          <div class="example-row">
+            <a class="button subtle" id="boot-guide" href="https://github.com/Montor123/OpenVR/tree/main/aosp" target="_blank" rel="noopener noreferrer">Cómo arrancar OpenVR OS ↗</a>
+            <a class="button subtle" id="desktop-link" target="_blank" rel="noopener noreferrer" hidden>Escritorio Android ↗</a>
+          </div>
+          <h3 class="apk-heading" id="apk-heading">Instalar una aplicación</h3>
+          <form id="apk-form" aria-labelledby="apk-heading" aria-describedby="apk-hint">
             <label for="apk-file">APK propia</label>
             <div class="file-row">
               <input id="apk-file" type="file" accept=".apk,application/vnd.android.package-archive" required disabled>
               <button type="submit" class="button primary" id="install-apk" disabled>Instalar</button>
             </div>
           </form>
-          <div class="example-row">
+          <div class="example-row" id="example-actions">
             <button type="button" class="button subtle" id="install-demo" disabled>Instalar y abrir ejemplo</button>
             <button type="button" class="button subtle" id="launch-demo" disabled>Abrir ejemplo</button>
           </div>

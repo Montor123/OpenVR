@@ -102,6 +102,7 @@ dd { margin: 0; white-space: nowrap; }
 input::file-selector-button, select { background: #292b36; color: var(--text); border: 1px solid #454755; border-radius: 5px; padding: 4px 6px; font-size: .82rem; }
 .example-row { margin-top: 9px; flex-wrap: wrap; }
 .hint { font-size: .79rem; margin-top: 9px; }
+.apk-heading { border-top: 1px solid var(--border); margin: 16px 0 8px; padding-top: 13px; }
 pre { color: #ccd2e2; background: #101116; border: 1px solid #333542; border-radius: 7px; padding: 9px; margin: 9px 0 0; font: .74rem/1.45 ui-monospace, Consolas, monospace; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
 .command-output { max-height: 12em; }
 .command-output.error { color: var(--bad); }

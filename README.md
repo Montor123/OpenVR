@@ -8,6 +8,8 @@ El producto Android de desarrollo usa AOSP 14 en Cuttlefish e incluye el lanzado
 
 - [Estado de OpenVR OS y verificación](docs/system.md)
 - [Compilar y exportar el producto AOSP](aosp/README.md)
+- [Conectar Cuttlefish al laboratorio web](docs/cuttlefish-web.md)
+- [Estado, pruebas y decisiones del proyecto](docs/project-status.md)
 - [Compilar el kernel Hollywood](kernel/README.md)
 - [Leer el inventario del visor en Windows](device/README.md)
 

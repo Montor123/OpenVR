@@ -1,0 +1,12 @@
+go version go1.26.8 linux/amd64
+
+$ go test -count=1 ./...
+?   	github.com/Montor123/OpenVR	[no test files]
+ok  	github.com/Montor123/OpenVR/cmd/openvr	0.044s
+
+$ node scripts/test-browser.mjs # navegador real y API de prueba
+OK: sala Canvas, movimiento por teclado y ratón, poses de dos mandos, menú y objetivo.
+OK: carga APK binaria, ejemplo, registros y enlace noVNC con API de prueba.
+OK: errores de ADB, registros y servidor tratados en la interfaz.
+OK: Cuttlefish separa el arranque y la pantalla del invitado de la instalación de APK.
+OK: Chromium 156.0.8078.79, sin excepciones JS ni desbordamiento a 390 px.

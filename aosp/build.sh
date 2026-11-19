@@ -11,6 +11,17 @@ reference_target=aosp_cf_x86_64_phone-trunk_staging-userdebug
 results="${OPENVR_RESULTS:-/data/results}"
 jobs="${AOSP_JOBS:-8}"
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+tools_dir="$script_dir"
+if [[ ! -r "$tools_dir/host-resources.sh" ]]; then
+    tools_dir=/opt/openvr/aosp
+fi
+source_dir="${OPENVR_AOSP_OVERLAY:-/opt/openvr/aosp}"
+if [[ ! -d "$source_dir" && -z "${OPENVR_AOSP_OVERLAY:-}" ]]; then
+    source_dir="$script_dir"
+fi
+if [[ -d "$source_dir" ]]; then
+    source_dir="$(cd -- "$source_dir" && pwd -P)"
+fi
 
 fail() {
     printf '%s\n' "$*" >&2
@@ -18,13 +29,9 @@ fail() {
 }
 
 stage_product() {
-    local overlay="${OPENVR_AOSP_OVERLAY:-/opt/openvr/aosp}"
     local destination=device/openvr/lab
-    if [[ ! -d "$overlay" && -z "${OPENVR_AOSP_OVERLAY:-}" ]]; then
-        overlay="$script_dir"
-    fi
-    [[ -f "$overlay/product/AndroidProducts.mk" && -f "$overlay/launcher/Android.bp" ]] ||
-        fail "Faltan el producto o el lanzador en $overlay."
+    [[ -f "$source_dir/product/AndroidProducts.mk" && -f "$source_dir/launcher/Android.bp" ]] ||
+        fail "Faltan el producto o el lanzador en $source_dir."
     [[ -f device/google/cuttlefish/vsoc_x86_64/phone/aosp_cf.mk ]] ||
         fail 'Falta el producto base de Cuttlefish. Ejecuta openvr-aosp sync.'
     if [[ -L device/openvr || -L "$destination" || -L "$destination/launcher" ||
@@ -35,9 +42,26 @@ stage_product() {
     mkdir -p -- "$destination"
     printf '%s\n' 'Producto generado por openvr-aosp stage' > "$destination/.openvr-generated"
     rsync -a --delete --exclude='/.openvr-generated' --exclude='/launcher/' -- \
-        "$overlay/product/" "$destination/"
-    rsync -a --delete -- "$overlay/launcher/" "$destination/launcher/"
+        "$source_dir/product/" "$destination/"
+    rsync -a --delete -- "$source_dir/launcher/" "$destination/launcher/"
+    (
+        cd -- "$destination"
+        find . -type f ! -name .openvr-generated -print0 | LC_ALL=C sort -z |
+            xargs -0 sha256sum --
+    ) > "$results/aosp-openvr-source.sha256"
     printf 'Producto preparado en %s\n' "$destination"
+}
+
+check_manifest() {
+    [[ "$(git -C .repo/manifests rev-parse HEAD)" == "$manifest_commit" ]] ||
+        fail "El árbol no usa el manifiesto fijado en $ref."
+}
+
+build_resources() {
+    [[ "$(uname -s):$(uname -m)" == Linux:x86_64 ]] || fail 'Compila AOSP con Linux x86_64.'
+    source "$tools_dir/host-resources.sh"
+    openvr_resources "$PWD"
+    printf '%s\n' 'AOSP recomienda empezar la descarga y compilación con 400 GB libres y 64 GB de RAM.'
 }
 
 build_product() (
@@ -67,17 +91,19 @@ build_product() (
     if [[ -s "$results/aosp-manifest.xml" ]]; then
         cp -- "$results/aosp-manifest.xml" "$bundle/"
     fi
+    cp -- "$results/aosp-openvr-source.sha256" "$bundle/"
+    python3 "$tools_dir/prepare-guest.py" "$bundle"
     printf 'Archivos de Cuttlefish: %s\n' "$bundle"
 )
 
 action="${1:-help}"
 case "$action" in
     help|-h|--help)
-        printf '%s\n' 'openvr-aosp sync | stage | compile | compile-reference | export' \
+        printf '%s\n' 'openvr-aosp preflight | sync | stage | compile | compile-reference | export' \
             "AOSP $ref, objetivo $target. AOSP_JOBS fija los trabajos en paralelo."
         exit
         ;;
-    sync|stage|compile|compile-reference|export) ;;
+    preflight|sync|stage|compile|compile-reference|export) ;;
     *) fail "Subcomando desconocido: $action" ;;
 esac
 [[ "$#" -eq 1 ]] || fail 'Usa openvr-aosp help.'
@@ -85,6 +111,12 @@ esac
 
 if [[ -n "${OPENVR_AOSP_ROOT:-}" ]]; then
     cd -- "$OPENVR_AOSP_ROOT"
+fi
+if [[ "$action" != stage ]]; then
+    build_resources
+fi
+if [[ "$action" == preflight ]]; then
+    exit
 fi
 mkdir -p -- "$results"
 results="$(cd -- "$results" && pwd)"
@@ -100,6 +132,7 @@ if [[ "$action" == sync ]]; then
     repo init -u "$manifest_url" -b "refs/tags/$ref" \
         --repo-url=file:///opt/git-repo --repo-rev=v2.54 \
         --partial-clone --no-clone-bundle
+    check_manifest
     repo sync -c --no-clone-bundle --fail-fast -j "$jobs" 2>&1 | tee "$results/aosp-sync.log"
     repo manifest -r -o "$results/aosp-manifest.xml"
     exit
@@ -107,8 +140,10 @@ fi
 
 [[ -f build/envsetup.sh ]] || fail 'Primero ejecuta openvr-aosp sync.'
 if [[ -d .repo/manifests ]]; then
-    [[ "$(git -C .repo/manifests rev-parse HEAD)" == "$manifest_commit" ]] ||
-        fail "El árbol no usa el manifiesto fijado en $ref."
+    check_manifest
+    if [[ "$action" == export ]]; then
+        repo manifest -r -o "$results/aosp-manifest.xml"
+    fi
 fi
 
 case "$action" in
